@@ -105,5 +105,13 @@ public class Ballot {
 	public void setListOfCandidates(ArrayList<Candidate> listOfCandidates) {
 		this.listOfCandidates = listOfCandidates;
 	}
+	
+	/**
+	 * Add a candidate to the list.
+	 * @param candidate
+	 */
+	public void addCandidate(Candidate candidate){
+		listOfCandidates.add(candidate);
+	}
 
 }
