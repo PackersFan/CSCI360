@@ -1,9 +1,11 @@
+import java.time.LocalTime;
+import java.util.ArrayList;
 public class Ballot {
 
 	private Voter owner;
 	private int ballotID;
-	private dateTime startTime;
-	private dateTime endTime;
+	private LocalTime startTime;
+	private LocalTime endTime;
 	private String pollOption;
 	private ArrayList<Candidate> listOfCandidates;
 
@@ -44,7 +46,7 @@ public class Ballot {
 	 * 
 	 * @return startTIme
 	 */
-	public dateTime getStartTime() {
+	public LocalTime getStartTime() {
 		return this.startTime;
 	}
 
@@ -52,7 +54,7 @@ public class Ballot {
 	 * 
 	 * @param startTime
 	 */
-	public void setStartTime(dateTime startTime) {
+	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
 	}
 	
@@ -60,7 +62,7 @@ public class Ballot {
 	 * 
 	 * @return endTime
  	 */
-	public dateTime getEndTime() {
+	public LocalTime getEndTime() {
 		return this.endTime;
 	}
 
@@ -68,7 +70,7 @@ public class Ballot {
 	 * 
 	 * @param endTime
 	 */
-	public void setEndTime(dateTime endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 	

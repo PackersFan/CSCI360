@@ -18,6 +18,7 @@ public class GUI {
 				nextId = candidate.getCandidateID();
 			}
 		}
+		return nextId;
 	}
 	
 	/**
@@ -30,7 +31,7 @@ public class GUI {
 			file.createNewFile();
 			FileWriter writer = new FileWriter(file);
 			for (Candidate candidate: listCandidate){
-				writer.write(candidate.getCandidateID() + "," + candidate.getFirstName() + "," + candidate.getLastName() + "," + candidate.getParyAffiliation());
+				writer.write(candidate.getCandidateID() + "," + candidate.getFirstName() + "," + candidate.getLastName() + "," + candidate.getPartyAffiliation());
 			}
 			writer.flush();
 			writer.close();
@@ -48,6 +49,7 @@ public class GUI {
 		try{
 			ArrayList<Candidate> listCandidate = new ArrayList();
 			FileReader myFile = new FileReader("listCandidate.csv");
+			Scanner myScanner = new Scanner(myFile);			
 			String myLine;
 			while(myScanner.hasNextLine()){
 				myLine = myScanner.nextLine();
@@ -71,7 +73,7 @@ public class GUI {
 		Container myPanel = myFrame.getContentPane();
 		myFrame.setSize(1280, 720);
 		ArrayList<Candidate> listCandidate = readCandidate();
-		myPanel.add(new Jlabel("Welcome to the electronic voting system"));
+		myPanel.add(new JLabel("Welcome to the electronic voting system"));
 		
 		JMenuBar myMenuBar = new JMenuBar();
 	}

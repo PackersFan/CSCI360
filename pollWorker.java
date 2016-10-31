@@ -1,3 +1,4 @@
+import java.time.LocalTime;
 public class pollWorker extends Person {
 
 	private String password;
@@ -46,7 +47,7 @@ public class pollWorker extends Person {
 	 * @param start
 	 * @param end
 	 */
-	public void createBallot(String ballotName, int ballotID, DateTime start, DateTine end) {
+	public void createBallot(String ballotName, int ballotID, LocalTime start, LocalTime end) {
 		// TODO - implement pollWorker.createBallot
 		throw new UnsupportedOperationException();
 	}

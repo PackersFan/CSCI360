@@ -2,6 +2,13 @@ public class Candidate extends Person {
 
 	private String partyAffiliation;
 	private int candidateID;
+	
+	public Candidate(int id, String firstName, String lastName, String party){
+		this.candidateID = id;
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setPartyAffiliation(party);
+	}
 
 	/**
 	 * 
