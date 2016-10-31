@@ -5,6 +5,10 @@ public class Voter extends Person {
 	private int idNumber;
 	private Ballot ballot;
 
+	/**
+	 * 
+	 * @return registrationStatus
+	 */
 	public boolean getRegistrationStatus() {
 		return this.registrationStatus;
 	}
@@ -17,11 +21,18 @@ public class Voter extends Person {
 		this.registrationStatus = registrationStatus;
 	}
 
+	/**
+	 * This method is used to cast the vote of the voter.
+	 */
 	public void castVote() {
 		// TODO - implement Voter.castVote
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * 
+	 * @return idNumber
+	 */
 	public int getIdNumber() {
 		return this.idNumber;
 	}
@@ -34,6 +45,10 @@ public class Voter extends Person {
 		this.idNumber = idNumber;
 	}
 
+	/**
+	 * 
+	 * @return ballot
+	 */
 	public Ballot getBallot() {
 		return this.ballot;
 	}

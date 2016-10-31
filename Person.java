@@ -3,6 +3,10 @@ public class Person {
 	private String firstName;
 	private String lastName;
 
+	/**
+	 * 
+	 * @return firstName
+	 */
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -15,6 +19,10 @@ public class Person {
 		this.firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @return lastName
+	 */
 	public String getLastName() {
 		return this.lastName;
 	}

@@ -3,6 +3,10 @@ public class Candidate extends Person {
 	private String partyAffiliation;
 	private int candidateID;
 
+	/**
+	 * 
+	 * @return partAffiliation
+	 */
 	public String getPartyAffiliation() {
 		return this.partyAffiliation;
 	}
@@ -15,6 +19,10 @@ public class Candidate extends Person {
 		this.partyAffiliation = partyAffiliation;
 	}
 
+	/**
+	 * 
+	 * @return candidateID
+	 */
 	public int getCandidateID() {
 		return this.candidateID;
 	}

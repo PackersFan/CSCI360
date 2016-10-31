@@ -6,6 +6,11 @@ import java.util.*;
 
 public class GUI {
 	
+	/**
+	 * 
+	 * @param listCandidate
+	 * @return candidate with the specified ID.
+	 */
 	public static int getNextCandidateID(ArrayList<Candidate> listCandidate){
 		int nextId = 0;
 		for (Candidate candidate : listCandidate){
@@ -15,6 +20,10 @@ public class GUI {
 		}
 	}
 	
+	/**
+	 * Saves the data to a .csv file named "listCandidate".
+	 * @param listCandidate
+	 */
 	public static void saveCandidateData(ArrayList<Candidate> listCandidate){
 		try{
 			File file = new File("listCandidate.csv");
@@ -31,6 +40,10 @@ public class GUI {
 		}
 	}
 	
+	/**
+	 * Reads a list of candidate from a .csv file and returns it as an arraylist.
+	 * @return ArrayList<Candidate> listCandidate
+	 */
 	public static ArrayList<Candidate> readCandidate(){
 		try{
 			ArrayList<Candidate> listCandidate = new ArrayList();
@@ -49,6 +62,10 @@ public class GUI {
 		}
 	}
 	
+	/**
+	 * Main method to get the GUI working with Swings.
+	 * @param args
+	 */
 	public static void main(String[] args){
 		JFrame myFrame = new JFrame("Electronic Voting System");
 		Container myPanel = myFrame.getContentPane();

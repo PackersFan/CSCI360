@@ -51,6 +51,10 @@ public class pollWorker extends Person {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * 
+	 * @return IDNumber
+	 */
 	public int getIdNumber() {
 		return this.idNumber;
 	}
