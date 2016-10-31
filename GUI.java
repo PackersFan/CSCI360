@@ -76,6 +76,18 @@ public class GUI {
 		myPanel.add(new JLabel("Welcome to the electronic voting system"));
 		
 		JMenuBar myMenuBar = new JMenuBar();
+		myFrame.setJMenuBar(myMenuBar);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		myFrame.setVisible(true);		
 	}
 	
 
