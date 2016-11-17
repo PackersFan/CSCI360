@@ -4,6 +4,18 @@ public class Voter extends Person {
 	private String password;
 	private int idNumber;
 	private Ballot ballot;
+	
+	public Voter(){
+		this.idNumber = 0;
+	}
+	
+	public Voter(String fName, String lName, String rStatus, int id, String pass){
+		this.idNumber = id;
+		this.setFirstName(fName);
+		this.setLastName(lName);
+		this.setRegistrationStatus(rStatus.equals("True"));
+		this.setPassword(pass);
+	}
 
 	/**
 	 * 
@@ -59,6 +71,14 @@ public class Voter extends Person {
 	 */
 	public void setBallot(Ballot ballot) {
 		this.ballot = ballot;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

@@ -10,6 +10,15 @@ public class Ballot {
 	private ArrayList<Candidate> listOfCandidates;
 
 	
+	public Ballot(){
+		
+	}
+	
+	public Ballot(Voter owner, int id, LocalTime start){
+		this.owner = owner;
+		this.ballotID = id;
+		this.startTime = start;
+	}
 	/**
 	 * 
 	 * @return owner

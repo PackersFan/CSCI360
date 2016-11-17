@@ -2,7 +2,13 @@ public class Candidate extends Person {
 
 	private String partyAffiliation;
 	private int candidateID;
+	private int voteCount;
 	
+	
+	
+	public Candidate(){
+		this.candidateID = 0;
+	}
 	/**
 	 * Create a candidate object
 	 * @param id
@@ -47,6 +53,16 @@ public class Candidate extends Person {
 	 */
 	public void setCandidateID(int candidateID) {
 		this.candidateID = candidateID;
+	}
+	public int getVoteCount() {
+		return voteCount;
+	}
+	public void setVoteCount(int voteCount) {
+		this.voteCount = voteCount;
+	}
+	
+	public void addVote(){
+		voteCount++;
 	}
 
 }
