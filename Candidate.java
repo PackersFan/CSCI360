@@ -16,11 +16,12 @@ public class Candidate extends Person {
 	 * @param lastName
 	 * @param party
 	 */
-	public Candidate(int id, String firstName, String lastName, String party){
+	public Candidate(int id, String firstName, String lastName, String party,int count){
 		this.candidateID = id;
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setPartyAffiliation(party);
+		this.setVoteCount(count);
 	}
 
 	/**

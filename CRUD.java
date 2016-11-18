@@ -29,7 +29,7 @@ public class CRUD {
 		ArrayList<Ballot> listBallots = readBallots();
 		ArrayList<Candidate> listCandidates = readCandidates();
 		do {
-			System.out.println("ADMIN MENU: R)egister voter, C)heck registration, G)et tallys, P)rint results, N)ew ballot, X to exit.");
+			System.out.println("ADMIN MENU: R)egister voter, C)heck registration, G)et tallys, P)rint results, N)ew ballot, A)dd Candidate, X to exit.");
 			command = in.nextLine();
 			if (command.equalsIgnoreCase("R")) {
 				Voter tempVoter = new Voter();
@@ -77,7 +77,18 @@ public class CRUD {
 				System.out.println("Start time has been set.");
 				tempBallot.setBallotID(getNextBallotId(listBallots));
 				listBallots.add(tempBallot);
-			} 
+			} else if (command.equalsIgnoreCase("A")){
+				Candidate tempCandidate = new Candidate();
+				System.out.println("Enter first name of candidate: ");
+				tempCandidate.setFirstName(in.nextLine());
+				System.out.println("Enter last name of candidate: ");
+				tempCandidate.setLastName(in.nextLine());
+				System.out.println("Enter party affiliation: ");
+				tempCandidate.setPartyAffiliation(in.next());
+				tempCandidate.setCandidateID(getNextCandidateId(listCandidates));
+				listCandidates.add(tempCandidate);
+			}
+			
 		} while (!command.equalsIgnoreCase("X"));
 		saveVoters(listVoters);
 		saveBallots(listBallots);	
@@ -121,6 +132,16 @@ public class CRUD {
     for(Ballot tempBallot : list) {
         if(tempBallot.getBallotID() > nextId){
             nextId = tempBallot.getBallotID();
+        }
+    }   
+    return nextId + 1;
+    }
+    
+    public static int getNextCandidateId(ArrayList<Candidate> list) {
+    int nextId = 0;
+    for(Candidate tempCandidate : list) {
+        if(tempCandidate.getCandidateID() > nextId){
+            nextId = tempCandidate.getCandidateID();
         }
     }   
     return nextId + 1;
@@ -195,12 +216,13 @@ public class CRUD {
             while(myScanner.hasNextLine()){
                 myLine = myScanner.nextLine();
                 String myParts[] = myLine.split(",");
-                listBallots.add(new Candidate(Integer.parseInt(myParts[0]), myParts[1], myParts[2], myParts[3])); 
+                listBallots.add(new Candidate(Integer.parseInt(myParts[0]), myParts[1], myParts[2], myParts[3], Integer.parseInt(myParts[4]))); 
             }
             myFile.close();
             return listBallots;
         }
         catch(Exception e){
+        	System.out.println("readCandidatesError");
             return new ArrayList<Candidate>();
         }
     }
@@ -217,7 +239,7 @@ public class CRUD {
 	        writer.close();
 	    }
 	    catch(IOException e) {
-	        System.out.println("Oops!");
+	        System.out.println("saveVotersError!");
 	    }
 	}
 
@@ -233,7 +255,7 @@ public class CRUD {
 	        writer.close();
 	    }
 	    catch(IOException e) {
-	        System.out.println("Oops!");
+	        System.out.println("saveBallotsError");
 	    }
 	}
 
@@ -243,13 +265,13 @@ public class CRUD {
             file.createNewFile();
             FileWriter writer = new FileWriter(file);
             for(Candidate tCandidate: listCandidates){
-                writer.write(tCandidate.getCandidateID() + "," + tCandidate.getFirstName()  + "," + tCandidate.getLastName() + "\n");
+                writer.write(tCandidate.getCandidateID() + "," + tCandidate.getFirstName()  + "," + tCandidate.getLastName() + "," + tCandidate.getPartyAffiliation() + "," + tCandidate.getVoteCount() + "\n");
             }
             writer.flush();
             writer.close();
         }
         catch(IOException e) {
-            System.out.println("Oops!");
+            System.out.println("saveCandidatesError");
         }
     }
 }
