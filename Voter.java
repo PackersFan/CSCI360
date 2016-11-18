@@ -7,15 +7,17 @@ public class Voter extends Person {
 	
 	public Voter(){
 		this.idNumber = 0;
+		this.registrationStatus = true;
 	}
 	
-	public Voter(String fName, String lName, String rStatus, int id, String pass){
+	public Voter(int id, String fName, String lName, String rStatus, String pass){
 		this.idNumber = id;
 		this.setFirstName(fName);
 		this.setLastName(lName);
-		this.setRegistrationStatus(rStatus.equals("True"));
+		this.setRegistrationStatus(rStatus.equalsIgnoreCase("True"));
 		this.setPassword(pass);
 	}
+	
 
 	/**
 	 * 

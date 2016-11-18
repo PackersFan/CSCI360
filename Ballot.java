@@ -19,6 +19,12 @@ public class Ballot {
 		this.ballotID = id;
 		this.startTime = start;
 	}
+	
+	public Ballot(int id, String firstName, String lastName){
+		this.owner.setFirstName(firstName);
+		this.owner.setLastName(lastName);
+		this.ballotID = id;
+	}
 	/**
 	 * 
 	 * @return owner

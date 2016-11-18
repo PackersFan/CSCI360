@@ -8,7 +8,7 @@ public class CRUD {
 		String command;		
 		do{
 			Scanner in = new Scanner(System.in);
-			System.out.println("ELECTRONIC VOTING SYSTEM MENU: Press A)dmin, V)oter ");
+			System.out.println("ELECTRONIC VOTING SYSTEM MENU: Press A)dmin, V)oter, X to exit.");
 			
 			command = in.nextLine();
 			if (command.equalsIgnoreCase("A")){
@@ -17,9 +17,7 @@ public class CRUD {
 			else if(command.equalsIgnoreCase("V")){
 				voterMenu();
 			}
-			else{
-				System.out.println("Please enter correct input.");
-			}
+
 		}while (!command.equalsIgnoreCase("X"));
 		
 	}
@@ -29,43 +27,84 @@ public class CRUD {
 		Scanner in = new Scanner(System.in);
 		ArrayList<Voter> listVoters = readVoters();
 		ArrayList<Ballot> listBallots = readBallots();
-		System.out.println("ADMIN MENU: R)egister voter, C)heck registration, G)et tallys, P)rint results, N)ew ballot");
-		command = in.nextLine();
-		if (command.equalsIgnoreCase("R")){
-			Voter tempVoter = new Voter();			
-			System.out.println("First name: ");
-			tempVoter.setFirstName(in.nextLine());
-			System.out.println("Last name: ");
-			tempVoter.setLastName(in.nextLine());
-			System.out.println("Password(Social Security, no hyphens): ");
-			tempVoter.setPassword(in.nextLine());
-			Ballot tempBallot = new Ballot();
-			System.out.println("New ballot has been made.");
-			tempBallot.setOwner(tempVoter);
-			tempBallot.setStartTime(LocalTime.now());
-			System.out.println("Start time has been set.");			
-			tempVoter.setIdNumber(getNextVoterId(listVoters));
-			tempBallot.setBallotID(getNextBallotId(listBallots));
-		}				
+		ArrayList<Candidate> listCandidates = readCandidates();
+		do {
+			System.out.println("ADMIN MENU: R)egister voter, C)heck registration, G)et tallys, P)rint results, N)ew ballot, X to exit.");
+			command = in.nextLine();
+			if (command.equalsIgnoreCase("R")) {
+				Voter tempVoter = new Voter();
+				System.out.println("First name: ");
+				tempVoter.setFirstName(in.nextLine());
+				System.out.println("Last name: ");
+				tempVoter.setLastName(in.nextLine());
+				System.out.println("Password(Social Security, no hyphens): ");
+				tempVoter.setPassword(in.nextLine());
+				Ballot tempBallot = new Ballot();
+				System.out.println("New ballot has been made.");
+				tempBallot.setOwner(tempVoter);
+				tempBallot.setStartTime(LocalTime.now());
+				System.out.println("Start time has been set.");
+				tempVoter.setIdNumber(getNextVoterId(listVoters));
+				System.out.println("THIS ID IS: " + tempVoter.getIdNumber());
+				tempBallot.setBallotID(getNextBallotId(listBallots));
+				listVoters.add(tempVoter);
+				listBallots.add(tempBallot);
+			} else if (command.equalsIgnoreCase("C")) {
+				System.out.println("Which voter would you like to check?");
+				Voter voter = getVoter(listVoters, Integer.parseInt(in.nextLine()));
+				System.out.println(voter.getFirstName() + " " + voter.getLastName() + " can register: ");
+				System.out.println(voter.getRegistrationStatus());
+			} else if (command.equalsIgnoreCase("G")) {
+				for (int i = 0; i < listCandidates.size(); i++) {
+					System.out.println(listCandidates.get(i).getFirstName() + " " + listCandidates.get(i).getLastName()
+							+ ": " + listCandidates.get(i).getVoteCount());
+				}
+			} else if (command.equalsIgnoreCase("P")) {
+				for (int i = 0; i < listCandidates.size(); i++) {
+					System.out.println(listCandidates.get(i).getFirstName() + " " + listCandidates.get(i).getLastName()
+							+ ": " + listCandidates.get(i).getVoteCount());
+				}
+			} else if (command.equalsIgnoreCase("N")) {
+				Ballot tempBallot = new Ballot();
+				System.out.println("Who is the owner of this ballot?: ");
+				for (int i = 0; i < listVoters.size(); i++) {
+					System.out.println(
+							i + ": " + listVoters.get(i).getFirstName() + " " + listVoters.get(i).getLastName());
+				}
+				Voter voter = getVoter(listVoters, Integer.parseInt(in.nextLine()));
+				tempBallot.setOwner(voter);
+				System.out.println("New ballot has been made.");
+				tempBallot.setStartTime(LocalTime.now());
+				System.out.println("Start time has been set.");
+				tempBallot.setBallotID(getNextBallotId(listBallots));
+				listBallots.add(tempBallot);
+			} 
+		} while (!command.equalsIgnoreCase("X"));
+		saveVoters(listVoters);
+		saveBallots(listBallots);	
+		saveCandidates(listCandidates);
 	}
 	
 	private static void voterMenu() {
 		String command;
 		Scanner in = new Scanner(System.in);
+		ArrayList<Voter> listVoters = readVoters();
+		ArrayList<Ballot> listBallots = readBallots();
 		ArrayList<Candidate> listCandidates = readCandidates();
-		System.out.println("VOTER MENU: V)ote");
-		command = in.nextLine();
-		if (command.equalsIgnoreCase("V")){
-				for(int i = 0; i < listCandidates.size(); i++){		
-				System.out.print(i + ": " + listCandidates.get(i).getFirstName());
-				System.out.println(" " + listCandidates.get(i).getLastName());
+		do {
+			System.out.println("VOTER MENU: V)ote, X to exit.");
+			command = in.nextLine();
+			if (command.equalsIgnoreCase("V")) {
+				for (int i = 0; i < listCandidates.size(); i++) {
+					System.out.print(i + ": " + listCandidates.get(i).getFirstName() + " "
+							+ listCandidates.get(i).getLastName());
 				}
 				getCandidate(listCandidates, Integer.parseInt(in.nextLine())).addVote();
-		}
-		
-		
-		
-		
+			} 
+		} while (!command.equalsIgnoreCase("X"));
+		saveVoters(listVoters);
+		saveBallots(listBallots);	
+		saveCandidates(listCandidates);
 	}
 	
     public static int getNextVoterId(ArrayList<Voter> list) {
@@ -88,73 +127,132 @@ public class CRUD {
     return nextId + 1;
     }
     
-    public static ArrayList<Voter> readVoters(){
+    public static Candidate getCandidate(ArrayList<Candidate> list, int id){
+	    for (Candidate candidate : list){
+	        if(candidate.getCandidateID() == id){
+	            return candidate;
+	        }
+	    }
+	    System.out.println("No candidate with this ID.");
+	    return new Candidate();
+	}
+
+	public static Voter getVoter(ArrayList<Voter> list, int id){
+	    for (Voter voter : list){
+	        if(voter.getIdNumber() == id){
+	            return voter;
+	        }
+	    }
+	    System.out.println("No voter with this ID.");
+	    return new Voter();
+	}
+
+	public static ArrayList<Voter> readVoters(){
         try{
-            ArrayList<Voter> listPlayers = new ArrayList();
+            ArrayList<Voter> listVoters = new ArrayList<Voter>();
             FileReader myFile = new FileReader("listVoters.csv");
             Scanner myScanner = new Scanner(myFile);
             String myLine;
             while(myScanner.hasNextLine()){
                 myLine = myScanner.nextLine();
                 String myParts[] = myLine.split(",");
-                listPlayers.add(new Voter()); 
+                listVoters.add(new Voter(Integer.parseInt(myParts[0]), myParts[1], myParts[2], myParts[3], myParts[4])); 
             }
             myFile.close();
-            return listPlayers;
+            return listVoters;
         }
         catch(Exception e){
-            return new ArrayList();
+            return new ArrayList<Voter>();
         }
     }
     
     public static ArrayList<Ballot> readBallots(){
         try{
-            ArrayList<Ballot> listPlayers = new ArrayList();
+            ArrayList<Ballot> listBallots = new ArrayList<Ballot>();
             FileReader myFile = new FileReader("listBallots.csv");
             Scanner myScanner = new Scanner(myFile);
             String myLine;
             while(myScanner.hasNextLine()){
                 myLine = myScanner.nextLine();
+                //System.out.println(myLine);
                 String myParts[] = myLine.split(",");
-                listPlayers.add(new Ballot()); 
+                listBallots.add(new Ballot(Integer.parseInt(myParts[0]), myParts[1], myParts[2])); 
+                //System.out.println("BALLOT ADDED");
             }
             myFile.close();
-            return listPlayers;
+            return listBallots;
         }
         catch(Exception e){
-            return new ArrayList();
+            return new ArrayList<Ballot>();
         }
     }
 	
     public static ArrayList<Candidate> readCandidates(){
         try{
-            ArrayList<Candidate> listPlayers = new ArrayList();
+            ArrayList<Candidate> listBallots = new ArrayList<Candidate>();
             FileReader myFile = new FileReader("listCandidates.csv");
             Scanner myScanner = new Scanner(myFile);
             String myLine;
             while(myScanner.hasNextLine()){
                 myLine = myScanner.nextLine();
                 String myParts[] = myLine.split(",");
-                listPlayers.add(new Candidate(Integer.parseInt(myParts[0]), myParts[1], myParts[2], myParts[6])); 
+                listBallots.add(new Candidate(Integer.parseInt(myParts[0]), myParts[1], myParts[2], myParts[3])); 
             }
             myFile.close();
-            return listPlayers;
+            return listBallots;
         }
         catch(Exception e){
-            return new ArrayList();
+            return new ArrayList<Candidate>();
         }
     }
 	
-    public static Candidate getCandidate(ArrayList<Candidate> list, int id){
-        for (Candidate candidate : list){
-            if(candidate.getCandidateID() == id){
-                return candidate;
+    public static void saveVoters(ArrayList<Voter> list){
+	    try {            
+	        File file = new File("listVoters.csv");
+	        file.createNewFile();
+	        FileWriter writer = new FileWriter(file);
+	        for(Voter tVoter: list){
+	            writer.write(tVoter.getIdNumber() + "," + tVoter.getFirstName()  + "," + tVoter.getLastName() + "," + tVoter.getRegistrationStatus() + "," + tVoter.getPassword() + "\n");
+	        }
+	        writer.flush();
+	        writer.close();
+	    }
+	    catch(IOException e) {
+	        System.out.println("Oops!");
+	    }
+	}
+
+	public static void saveBallots(ArrayList<Ballot> listBallots){
+	    try {            
+	        File file = new File("listBallots.csv");
+	        file.createNewFile();
+	        FileWriter writer = new FileWriter(file);
+	        for(Ballot tBallot: listBallots){
+	            writer.write(tBallot.getBallotID() + "," + tBallot.getOwner().getFirstName() + "," + tBallot.getOwner().getLastName() +  "\n");
+	        }
+	        writer.flush();
+	        writer.close();
+	    }
+	    catch(IOException e) {
+	        System.out.println("Oops!");
+	    }
+	}
+
+	public static void saveCandidates(ArrayList<Candidate> listCandidates){
+        try {            
+            File file = new File("listCandidates.csv");
+            file.createNewFile();
+            FileWriter writer = new FileWriter(file);
+            for(Candidate tCandidate: listCandidates){
+                writer.write(tCandidate.getCandidateID() + "," + tCandidate.getFirstName()  + "," + tCandidate.getLastName() + "\n");
             }
+            writer.flush();
+            writer.close();
         }
-        System.out.println("No tennis player with this ID.");
-        return new Candidate();
+        catch(IOException e) {
+            System.out.println("Oops!");
+        }
     }
-		
 }
 
 
