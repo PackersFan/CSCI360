@@ -21,6 +21,7 @@ public class Ballot {
 	}
 	
 	public Ballot(int id, String firstName, String lastName){
+		this.owner = new Voter();
 		this.owner.setFirstName(firstName);
 		this.owner.setLastName(lastName);
 		this.ballotID = id;

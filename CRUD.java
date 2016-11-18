@@ -45,7 +45,6 @@ public class CRUD {
 				tempBallot.setStartTime(LocalTime.now());
 				System.out.println("Start time has been set.");
 				tempVoter.setIdNumber(getNextVoterId(listVoters));
-				System.out.println("THIS ID IS: " + tempVoter.getIdNumber());
 				tempBallot.setBallotID(getNextBallotId(listBallots));
 				listVoters.add(tempVoter);
 				listBallots.add(tempBallot);
@@ -162,7 +161,8 @@ public class CRUD {
             return listVoters;
         }
         catch(Exception e){
-            return new ArrayList<Voter>();
+        	System.out.println("Error on reading Voter."); 
+        	return new ArrayList<Voter>();
         }
     }
     
@@ -173,17 +173,16 @@ public class CRUD {
             Scanner myScanner = new Scanner(myFile);
             String myLine;
             while(myScanner.hasNextLine()){
-                myLine = myScanner.nextLine();
-                //System.out.println(myLine);
-                String myParts[] = myLine.split(",");
-                listBallots.add(new Ballot(Integer.parseInt(myParts[0]), myParts[1], myParts[2])); 
-                //System.out.println("BALLOT ADDED");
+                myLine = myScanner.nextLine();               
+                String myParts[] = myLine.split(","); 
+                listBallots.add(new Ballot(Integer.parseInt(myParts[0].toString()), myParts[1], myParts[2]));
             }
             myFile.close();
             return listBallots;
         }
         catch(Exception e){
-            return new ArrayList<Ballot>();
+        	System.out.println("Error on reading ballot."); 
+        	return new ArrayList<Ballot>();
         }
     }
 	
