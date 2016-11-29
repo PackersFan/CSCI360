@@ -3,9 +3,9 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 import java.util.*;
-/*TODO: ADD STUFF TO registerVoter()
- * 
- * 
+/*TODO: ADD STUFF TO ALL BUTTONS Ctrl+F JButtons
+ * CHANGE DIMENSIONS EVENTUALLY Ctrl+F setBounds
+ * ADD getTallys,printResults to adminMenu() and implement them outside.
 */
 public class GUI {	
 	
@@ -65,7 +65,7 @@ public class GUI {
 		JButton check = new JButton("Check registration");
 		check.setVerticalTextPosition(AbstractButton.CENTER);
 		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setBounds(50,400,200,200);
+		check.setBounds(50,300,200,200);
 		check.setToolTipText("This brings up menu to check registration of a voter.");
 		check.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -73,8 +73,36 @@ public class GUI {
 			}
 		});
 		
-		dialog.add(regVoter);
+		JButton tally = new JButton("Get tally");
+		tally.setHorizontalTextPosition(AbstractButton.CENTER);
+		tally.setHorizontalTextPosition(AbstractButton.CENTER);
+		tally.setBounds(300, 50, 200, 200);
+		tally.setToolTipText("This shows the current standings.");
+		
+		JButton print = new JButton("Print results");
+		print.setHorizontalTextPosition(AbstractButton.CENTER);
+		print.setHorizontalTextPosition(AbstractButton.CENTER);
+		print.setBounds(300, 300, 200, 200);
+		print.setToolTipText("This prints the results.");
+		
+		JButton ballot = new JButton("New ballot");
+		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
+		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
+		ballot.setBounds(550, 50, 200, 200);
+		ballot.setToolTipText("This brings up menu to create new ballot.");
+		
+		JButton candidate = new JButton("Add candidate");
+		candidate.setHorizontalTextPosition(AbstractButton.CENTER);
+		candidate.setHorizontalTextPosition(AbstractButton.CENTER);
+		candidate.setBounds(550, 300, 200, 200);
+		candidate.setToolTipText("Brings up menu to add a new candidate.");
+		
+		dialog.add(regVoter);		
 		dialog.add(check);
+		dialog.add(tally);
+		dialog.add(print);
+		dialog.add(ballot);
+		dialog.add(candidate);
 		dialog.getContentPane().setLayout(null);
 		dialog.setVisible(true);
 	}
@@ -125,17 +153,26 @@ public class GUI {
 		dialog.getContentPane().setLayout(null);
 		
 		JLabel text = new JLabel("Voter ID: ");
-		text.setBounds(50,50, 200,100);
+		text.setBounds(50,20, 200,100);
+		
+		JTextField fText = new JTextField();
+		fText.setBounds(250, 50, 200,30);
+		
+		JButton check = new JButton("Check registration");
+		check.setHorizontalTextPosition(AbstractButton.CENTER);
+		check.setHorizontalTextPosition(AbstractButton.CENTER);
+		check.setBounds(490,500,300,100);
 		
 		dialog.add(text);
+		dialog.add(fText);
+		dialog.add(check);
 		dialog.setVisible(true);
 	}
 
 	public static void main(String[] args){
 		myFrame = new JFrame("Electronic Voting System");
 		myFrame.getContentPane().setLayout(null);
-		myFrame.setLayout(null);
-		//registerVoter();
+		myFrame.setLayout(null);		
 		makeGUI();
 		
 	
