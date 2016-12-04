@@ -3,7 +3,7 @@ public class Candidate extends Person {
 	private String partyAffiliation;
 	private int candidateID;
 	private int voteCount;
-	
+
 	
 	
 	public Candidate(){

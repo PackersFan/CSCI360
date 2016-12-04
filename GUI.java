@@ -254,14 +254,34 @@ public class GUI {
 		JTextField fText = new JTextField();
 		fText.setBounds(250, 50, 200,30);
 		
+		JButton close = new JButton("Close");
+		close.setHorizontalTextPosition(AbstractButton.CENTER);
+		close.setVerticalTextPosition(AbstractButton.CENTER);
+		close.setBounds(50, 100, 300, 100);
+		close.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dialog.dispose();
+			}
+
+		});		
+
+		
 		JButton check = new JButton("Check registration");
 		check.setHorizontalTextPosition(AbstractButton.CENTER);
 		check.setHorizontalTextPosition(AbstractButton.CENTER);
 		check.setBounds(490,500,300,100);
+		check.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				//TODO: CHECK IF VOTER IS REGISTERED IN DATABASE.
+			}
+		});
+		
+		
 		
 		dialog.add(text);
 		dialog.add(fText);
 		dialog.add(check);
+		dialog.add(close);
 		dialog.setVisible(true);
 	}
 	
