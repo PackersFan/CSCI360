@@ -1,1 +1,1 @@
-CREATE DATABASE voting 
+CREATE DATABASE voting; 

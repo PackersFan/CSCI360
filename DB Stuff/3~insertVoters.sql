@@ -1,0 +1,10 @@
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Carson', 'Smith', 'dog', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Vincent', 'Nguyen', 'cat', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Bob', 'Jones', 'frog', 0);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Lol', 'Man', 'dog', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Donald', 'Trump', 'president', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Hillary', 'Clinton', 'loser', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Aaron', 'Rodgers', 'packers', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Michael', 'Vick', 'falcons', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Tom', 'Brady', 'patriots', 1);
+INSERT INTO voter(firstName, lastName, pass, registrationStatus) VALUES ('Jim', 'Tim', 'blue', 1);

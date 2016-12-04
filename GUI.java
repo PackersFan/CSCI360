@@ -354,10 +354,10 @@ public class GUI {
 					listDialog.setSize(1280,720);
 
 
-			        String url = "jdbc:mysql://localhost:3306/yourdb";
+			        String url = "jdbc:mysql://localhost:3306/votings";
 			        String userid = "root";
-			        String pw = "sesame";
-			        String sql = "SELECT * FROM stuff";
+			        String pw = "helex12";
+			        String sql = "SELECT * FROM voter";
 
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
