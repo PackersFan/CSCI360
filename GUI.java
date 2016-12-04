@@ -30,7 +30,7 @@ public class GUI {
 		JButton adminButton = new JButton("Admin menu");
 		adminButton.setVerticalTextPosition(AbstractButton.CENTER);
 		adminButton.setHorizontalTextPosition(AbstractButton.CENTER);
-		adminButton.setBounds(50,50,200,200);
+		adminButton.setBounds(640,0,640,720);
 		adminButton.setToolTipText("This brings up the admin menu");
 		adminButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -38,8 +38,21 @@ public class GUI {
 			}
 		});
 		
+		JButton voterButton = new JButton("Voter menu");
+		voterButton.setVerticalTextPosition(AbstractButton.CENTER);
+		voterButton.setHorizontalTextPosition(AbstractButton.CENTER);
+		voterButton.setBounds(0,0,640,720);
+		voterButton.setToolTipText("This brings up the voter menu");
+		voterButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				voterMenu();
+			}
+		});
+
+		
 		
 		myPanel.add(adminButton);
+		myPanel.add(voterButton);
 		myFrame.getContentPane().setLayout(null);		
 		myFrame.setVisible(true);	
 		
@@ -168,12 +181,56 @@ public class GUI {
 		dialog.add(check);
 		dialog.setVisible(true);
 	}
+	
+	public static void voterMenu(){
+		
+		Voter voter = new Voter();
+		JDialog dialog = new JDialog(myFrame, "Voter Menu", true);
+		dialog.getContentPane().setLayout(null);
+		
+		JLabel fName = new JLabel("First name: ");
+		fName.setBounds(50, 20, 200, 100);
+		
+		JLabel lName = new JLabel("Last name: ");
+		lName.setBounds(50, 20, 200, 100);
+
+		if (voter.getRegistrationStatus() == false){
+			JDialog dError = new JDialog(myFrame, "Error", true);
+			dError.setSize(400, 500);
+			
+			JLabel msg = new JLabel("Voter has already voted.");
+			msg.setBounds(50,50,200,30);			
+			
+			JButton close = new JButton("Close");
+			close.setBounds(50,100,300,100);
+			close.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e){
+					dError.dispose();
+				}
+
+			});
+			
+			dError.getContentPane().setLayout(null);
+			dError.add(msg);
+			dError.add(close);			
+			dError.setVisible(true);
+			
+		}
+		else{
+			
+		}
+		
+		
+		dialog.setVisible(true);
+		
+	}
 
 	public static void main(String[] args){
 		myFrame = new JFrame("Electronic Voting System");
 		myFrame.getContentPane().setLayout(null);
 		myFrame.setLayout(null);		
-		makeGUI();
+		voterMenu();
+		//makeGUI();
 		
 	
 	}
