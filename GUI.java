@@ -1,11 +1,19 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.Statement;
+
 import javax.swing.*;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.*;
 /*TODO: ADD STUFF TO ALL BUTTONS Ctrl+F JButtons
  * CHANGE DIMENSIONS EVENTUALLY Ctrl+F setBounds
  * ADD getTallys,printResults to adminMenu() and implement them outside.
+ * 
+ * Listing tuples in a database from here: http://stackoverflow.com/questions/21898053/display-records-from-mysql-database-using-jtable-in-java
 */
 public class GUI {	
 	
@@ -93,11 +101,31 @@ public class GUI {
 				//TODO: DO STUFF WITH ADMIN INFO WITH DATABASE
 				
 				pollWorker worker = new pollWorker();
-				if(WORKER IS IN DATABASE){
+				if(worker != null){  			// CHECK IF WORKER IS IN DATABASE CHANGE THIS
 					adminMenu();
 				}
 				else{
+					JDialog dError = new JDialog(myFrame, "Error", true);
+					dError.setSize(400, 500);
 					
+					JLabel msg = new JLabel("Voter has already voted.");
+					msg.setBounds(50,50,200,30);			
+					
+					JButton close = new JButton("Close");
+					close.setHorizontalTextPosition(AbstractButton.CENTER);
+					close.setVerticalTextPosition(AbstractButton.CENTER);
+					close.setBounds(50, 100, 300, 100);
+					close.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							dError.dispose();
+						}
+
+					});
+					
+					dError.getContentPane().setLayout(null);
+					dError.add(msg);
+					dError.add(close);			
+					dError.setVisible(true);
 				}
 				
 			}
@@ -298,8 +326,93 @@ public class GUI {
 					
 				}
 				else{
-					
-				}
+			        ArrayList columnNames = new ArrayList();
+			        ArrayList data = new ArrayList();
+			        
+					JDialog listDialog = new JDialog(myFrame, "List of candidates", true);
+					listDialog.getContentPane().setLayout(null);
+					listDialog.setSize(1280,720);
+
+
+			        String url = "jdbc:mysql://localhost:3306/yourdb";
+			        String userid = "root";
+			        String pw = "sesame";
+			        String sql = "SELECT * FROM stuff";
+
+	
+			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+			            Statement stmt = connection.createStatement();			// TODO: CHANGE THIS
+			            ResultSet rs = stmt.executeQuery( sql ))
+			        {
+			            ResultSetMetaData md = rs.getMetaData();
+			            int columns = md.getColumnCount();
+
+
+			            for (int i = 1; i <= columns; i++)
+			            {
+			                columnNames.add( md.getColumnName(i) );
+			            }
+
+
+			            while (rs.next())
+			            {
+			                ArrayList row = new ArrayList(columns);
+
+			                for (int i = 1; i <= columns; i++)
+			                {
+			                    row.add( rs.getObject(i) );
+			                }
+
+			                data.add( row );
+			            }
+			        }
+			        catch (SQLException e)
+			        {
+			            System.out.println( e.getMessage() );
+			        }
+
+			        Vector columnNamesVector = new Vector();
+			        Vector dataVector = new Vector();
+
+			        for (int i = 0; i < data.size(); i++)
+			        {
+			            ArrayList subArray = (ArrayList)data.get(i);
+			            Vector subVector = new Vector();
+			            for (int j = 0; j < subArray.size(); j++)
+			            {
+			                subVector.add(subArray.get(j));
+			            }
+			            dataVector.add(subVector);
+			        }
+
+			        for (int i = 0; i < columnNames.size(); i++ )
+			            columnNamesVector.add(columnNames.get(i));
+
+			        //  Create table with database data    
+			        JTable table = new JTable(dataVector, columnNamesVector)
+			        {
+			            public Class getColumnClass(int column)
+			            {
+			                for (int row = 0; row < getRowCount(); row++)
+			                {
+			                    Object o = getValueAt(row, column);
+
+			                    if (o != null)
+			                    {
+			                        return o.getClass();
+			                    }
+			                }
+
+			                return Object.class;
+			            }
+			        };
+
+			        JScrollPane scrollPane = new JScrollPane( table );
+			        listDialog.add( scrollPane );
+
+			        JPanel buttonPanel = new JPanel();
+			        listDialog.add( buttonPanel, BorderLayout.SOUTH );
+			    }
 			}
 		});
 		
