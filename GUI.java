@@ -34,7 +34,7 @@ public class GUI {
 		adminButton.setToolTipText("This brings up the admin menu");
 		adminButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				adminMenu();
+				checkAdmin();
 			}
 		});
 		
@@ -48,7 +48,6 @@ public class GUI {
 				voterMenu();
 			}
 		});
-
 		
 		
 		myPanel.add(adminButton);
@@ -58,7 +57,63 @@ public class GUI {
 		
 	}
 	
-	public static void adminMenu(){
+	protected static void checkAdmin() {
+		
+		JDialog dialog = new JDialog(myFrame, "Admin menu", true);
+		dialog.setSize(1280,720);	
+		dialog.getContentPane().setLayout(null);
+		
+		JLabel fName = new JLabel("First name: ");
+		fName.setBounds(10, 10, 200, 100);
+		
+		JLabel lName = new JLabel("Last name: ");
+		lName.setBounds(10, 70, 200, 100);
+		
+		JLabel passwordLabel = new JLabel("Password: ");
+		passwordLabel.setBounds(10, 130, 200, 100);
+				
+		JTextField fText = new JTextField();
+		fText.setBounds(250, 50, 200,30);
+		
+		JTextField lText = new JTextField();
+		lText.setBounds(250, 110, 200,30);
+		
+		JTextField passwordField = new JTextField();
+		passwordField.setBounds(250, 170,200,30);
+		
+		JButton login =new JButton("Login");
+		login.setHorizontalTextPosition(AbstractButton.CENTER);
+		login.setVerticalTextPosition(AbstractButton.CENTER);
+		login.setBounds(50, 350, 300, 100);
+		login.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String first = fText.getText();
+				String last = lText.getText();
+				String password = passwordField.getText();
+				//TODO: DO STUFF WITH ADMIN INFO WITH DATABASE
+				
+				pollWorker worker = new pollWorker();
+				if(WORKER IS IN DATABASE){
+					adminMenu();
+				}
+				else{
+					
+				}
+				
+			}
+		});
+		
+		dialog.add(fName);
+		dialog.add(lName);
+		dialog.add(passwordLabel);
+		dialog.add(fText);
+		dialog.add(lText);
+		dialog.add(passwordField);
+		dialog.add(login);
+		dialog.setVisible(true);
+	}
+
+	public static void adminMenu(){		
 		
 		JDialog dialog = new JDialog(myFrame, "Admin menu", true);
 		dialog.setSize(1280,720);		
@@ -184,43 +239,80 @@ public class GUI {
 	
 	public static void voterMenu(){
 		
-		Voter voter = new Voter();
+		Voter voter = new Voter(); 		// This is just a voter object to code. It doesn't do anything.
 		JDialog dialog = new JDialog(myFrame, "Voter Menu", true);
 		dialog.getContentPane().setLayout(null);
+		dialog.setSize(1280,720);
 		
 		JLabel fName = new JLabel("First name: ");
-		fName.setBounds(50, 20, 200, 100);
+		fName.setBounds(10, 10, 200, 100);
 		
 		JLabel lName = new JLabel("Last name: ");
-		lName.setBounds(50, 20, 200, 100);
+		lName.setBounds(10, 70, 200, 100);
+		
+		JLabel passwordLabel = new JLabel("Password: ");
+		passwordLabel.setBounds(10, 130, 200, 100);
+				
+		JTextField fText = new JTextField();
+		fText.setBounds(250, 50, 200,30);
+		
+		JTextField lText = new JTextField();
+		lText.setBounds(250, 110, 200,30);
+		
+		JTextField passwordField = new JTextField();
+		passwordField.setBounds(250, 170,200,30);
+		
+		JButton login =new JButton("Login");
+		login.setHorizontalTextPosition(AbstractButton.CENTER);
+		login.setVerticalTextPosition(AbstractButton.CENTER);
+		login.setBounds(50, 350, 300, 100);
+		login.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String first = fText.getText();
+				String last = lText.getText();
+				String password = passwordField.getText();
+				// TODO: USE DATA TO CHECK IN DATABASE
+				
+				if (voter.getRegistrationStatus() == false){
+					JDialog dError = new JDialog(myFrame, "Error", true);
+					dError.setSize(400, 500);
+					
+					JLabel msg = new JLabel("Voter has already voted.");
+					msg.setBounds(50,50,200,30);			
+					
+					JButton close = new JButton("Close");
+					close.setHorizontalTextPosition(AbstractButton.CENTER);
+					close.setVerticalTextPosition(AbstractButton.CENTER);
+					close.setBounds(50, 100, 300, 100);
+					close.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							dError.dispose();
+						}
 
-		if (voter.getRegistrationStatus() == false){
-			JDialog dError = new JDialog(myFrame, "Error", true);
-			dError.setSize(400, 500);
-			
-			JLabel msg = new JLabel("Voter has already voted.");
-			msg.setBounds(50,50,200,30);			
-			
-			JButton close = new JButton("Close");
-			close.setBounds(50,100,300,100);
-			close.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					dError.dispose();
+					});
+					
+					dError.getContentPane().setLayout(null);
+					dError.add(msg);
+					dError.add(close);			
+					dError.setVisible(true);
+					
 				}
+				else{
+					
+				}
+			}
+		});
+		
 
-			});
-			
-			dError.getContentPane().setLayout(null);
-			dError.add(msg);
-			dError.add(close);			
-			dError.setVisible(true);
-			
-		}
-		else{
-			
-		}
+
 		
-		
+		dialog.add(fName);
+		dialog.add(lName);
+		dialog.add(passwordLabel);
+		dialog.add(fText);
+		dialog.add(lText);
+		dialog.add(passwordField);
+		dialog.add(login);
 		dialog.setVisible(true);
 		
 	}
@@ -229,8 +321,8 @@ public class GUI {
 		myFrame = new JFrame("Electronic Voting System");
 		myFrame.getContentPane().setLayout(null);
 		myFrame.setLayout(null);		
-		voterMenu();
-		//makeGUI();
+		//voterMenu();
+		makeGUI();
 		
 	
 	}
