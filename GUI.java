@@ -366,7 +366,7 @@ public class GUI {
 			        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
 			        String pw = "";
-			        String sql = "SELECT * FROM voter";
+			        String sql = "SELECT * FROM candidates";
 
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
@@ -394,7 +394,7 @@ public class GUI {
 			                }
 
 			                data.add( row );
-			                System.out.println(row);
+			               
 			            }
 			        }
 			        catch (SQLException z)
@@ -425,15 +425,15 @@ public class GUI {
 			        {
 			            public Class getColumnClass(int column)
 			            {
-			            	System.out.println(getRowCount());
+			            	
 			                for (int row = 0; row < getRowCount(); row++)
 			                {
 			                    Object o = getValueAt(row, column);
 			              
-			                    System.out.println("HELLO!" + o);
+			                    
 			                    if (o != null)
 			                    {
-			                    	System.out.println(o);
+			                    	
 			                        return o.getClass();
 			                    }
 			                }
