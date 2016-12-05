@@ -5,6 +5,11 @@ import java.awt.event.*;
 import java.sql.Statement;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -168,7 +173,113 @@ public class GUI {
 		check.setToolTipText("This brings up menu to check registration of a voter.");
 		check.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				checkRegistration();
+				ArrayList columnNames = new ArrayList();
+		        ArrayList data = new ArrayList();
+		        
+				JDialog listDialog = new JDialog(myFrame, "List of candidates", true);
+				listDialog.getContentPane().setLayout(null);
+				listDialog.setSize(1280,720);
+
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+		        String userid = "root";
+		        String pw = "password";
+		        String sql = "SELECT * FROM Voter";
+
+
+		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+		            ResultSet rs = statement.executeQuery( sql ))
+		        {
+		            ResultSetMetaData md = rs.getMetaData();
+		            int columns = md.getColumnCount();
+
+
+		            for (int i = 1; i <= columns; i++)
+		            {
+		                columnNames.add( md.getColumnName(i) );
+		            }
+
+
+		            while (rs.next())
+		            {
+		                ArrayList row = new ArrayList(columns);
+
+		                for (int i = 1; i <= columns; i++)
+		                {
+		                    row.add( rs.getObject(i) );
+		                    
+		                }
+
+		                data.add( row );
+		                
+		            }
+		        }
+		        catch (SQLException z)
+		        {
+		            System.out.println( z.getMessage() );
+		        }
+
+		        Vector columnNamesVector = new Vector();
+		        Vector dataVector = new Vector();
+
+		        for (int i = 0; i < data.size(); i++)
+		        {
+		            ArrayList subArray = (ArrayList)data.get(i);
+		            Vector subVector = new Vector();
+		            for (int j = 0; j < subArray.size(); j++)
+		            {
+		                subVector.add(subArray.get(j));
+		            }
+		            dataVector.add(subVector);
+		        }
+
+		        for (int i = 0; i < columnNames.size(); i++ ){
+		            columnNamesVector.add(columnNames.get(i));
+		        }
+
+		        //  Create table with database data    
+		        JTable table = new JTable(dataVector, columnNamesVector)
+		        {
+		            public Class getColumnClass(int column)
+		            {
+		            	
+		                for (int row = 0; row < getRowCount(); row++)
+		                {
+		                    Object o = getValueAt(row, column);
+		              
+		                   
+		                    if (o != null)
+		                    {
+		                    	
+		                        return o.getClass();
+		                    }
+		                }
+
+		                return Object.class;
+		            }
+		        };
+
+//		        JScrollPane scrollPane = new JScrollPane( table );
+//		        listDialog.add( scrollPane );
+		        
+		        listDialog.setLayout(new BorderLayout());
+		        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
+		        listDialog.add(table, BorderLayout.CENTER);
+		        table.setVisible(true);
+		        
+		        JPanel buttonPanel = new JPanel();
+		        listDialog.add( buttonPanel, BorderLayout.SOUTH );
+		        
+		   
+		        
+		        listDialog.setVisible(true);
 			}
 		});
 		
@@ -177,6 +288,7 @@ public class GUI {
 		tally.setHorizontalTextPosition(AbstractButton.CENTER);
 		tally.setBounds(300, 50, 200, 200);
 		tally.setToolTipText("This shows the current standings.");
+		
 		
 		JButton print = new JButton("Print results");
 		print.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -244,49 +356,7 @@ public class GUI {
 		dialog.setVisible(true);
 	}
 	
-	public static void checkRegistration(){
-		JDialog dialog = new JDialog(myFrame, "Check registration", true);
-		dialog.setSize(1280, 720);
-		dialog.setLocationRelativeTo(myFrame);
-		dialog.setLayout(null);
-		dialog.getContentPane().setLayout(null);
-		
-		JLabel text = new JLabel("Voter ID: ");
-		text.setBounds(50,20, 200,100);
-		
-		JTextField fText = new JTextField();
-		fText.setBounds(250, 50, 200,30);
-		
-		JButton close = new JButton("Close");
-		close.setHorizontalTextPosition(AbstractButton.CENTER);
-		close.setVerticalTextPosition(AbstractButton.CENTER);
-		close.setBounds(50, 100, 300, 100);
-		close.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				dialog.dispose();
-			}
 
-		});		
-
-		
-		JButton check = new JButton("Check registration");
-		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setBounds(490,500,300,100);
-		check.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				//TODO: CHECK IF VOTER IS REGISTERED IN DATABASE.
-			}
-		});
-		
-		
-		
-		dialog.add(text);
-		dialog.add(fText);
-		dialog.add(check);
-		dialog.add(close);
-		dialog.setVisible(true);
-	}
 	
 	public static void voterMenu(){
 		
@@ -343,44 +413,7 @@ public class GUI {
 			        catch (SQLException z)
 			        {
 			            System.out.println( z.getMessage() );
-			        }
-
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+			        }				
 				
 				
 				if (canVote == false){
@@ -420,14 +453,17 @@ public class GUI {
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
-					
+					}				
+
 			        
-			        sql = "SELECT * FROM candidates";
+
+			        			       
+			        sql = "SELECT firstName, lastName, partyAffiliation FROM Candidates";
+
 
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
-			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+			            Statement statement = connection.createStatement();			
 			            ResultSet rs = statement.executeQuery( sql ))
 			        {
 			            ResultSetMetaData md = rs.getMetaData();
@@ -478,7 +514,13 @@ public class GUI {
 			        }
 
 			        //  Create table with database data    
-			        JTable table = new JTable(dataVector, columnNamesVector)
+			        TableModel model = new DefaultTableModel(dataVector, columnNamesVector){
+			        	public boolean isCellEditable(int row, int column){
+			        		return false;
+			        	}
+			        };
+			        JTable table = new JTable(model)
+			        
 			        {
 			            public Class getColumnClass(int column)
 			            {
@@ -499,7 +541,16 @@ public class GUI {
 			            }
 			        };
 
-			      
+			      		
+			        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+
+						@Override
+						public void valueChanged(ListSelectionEvent arg0) {
+							JDialog confirm = new JDialog(myFrame,"Confirmation", true);
+							
+						}
+			        });
+			        
 			        listDialog.setLayout(new BorderLayout());
 			        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
 			        listDialog.add(table, BorderLayout.CENTER);
