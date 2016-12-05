@@ -600,7 +600,7 @@ public class GUI {
 		dialog.add(first);
 		dialog.add(last);
 		dialog.add(party);
-		dialog.add(add);	
+		dialog.add(add);		
 		dialog.add(fFirst);
 		dialog.add(fLast);
 		dialog.add(fParty);
