@@ -381,8 +381,7 @@ public class GUI {
 			            {
 			                columnNames.add( md.getColumnName(i) );
 			            }
-			            Object[] columnArr = new Object[columnNames.size()];
-			            columnArr = columnNames.toArray(columnArr);
+
 
 			            while (rs.next())
 			            {
@@ -394,23 +393,70 @@ public class GUI {
 			                    
 			                }
 
-			                data.add( row ); //listDialog show that the data is being grabbed from database
-			                Object[] rowArr = new String[row.size()];
-				            rowArr = row.toArray(rowArr);
+			                data.add( row );
 			                System.out.println(row);
-			                JTable table = new JTable(rowArr, columnArr); 
 			            }
-			           
-			            
-			           
 			        }
-			    
 			        catch (SQLException z)
 			        {
 			            System.out.println( z.getMessage() );
 			        }
 
-			       
+			        Vector columnNamesVector = new Vector();
+			        Vector dataVector = new Vector();
+
+			        for (int i = 0; i < data.size(); i++)
+			        {
+			            ArrayList subArray = (ArrayList)data.get(i);
+			            Vector subVector = new Vector();
+			            for (int j = 0; j < subArray.size(); j++)
+			            {
+			                subVector.add(subArray.get(j));
+			            }
+			            dataVector.add(subVector);
+			        }
+
+			        for (int i = 0; i < columnNames.size(); i++ ){
+			            columnNamesVector.add(columnNames.get(i));
+			        }
+
+			        //  Create table with database data    
+			        JTable table = new JTable(dataVector, columnNamesVector)
+			        {
+			            public Class getColumnClass(int column)
+			            {
+			            	System.out.println(getRowCount());
+			                for (int row = 0; row < getRowCount(); row++)
+			                {
+			                    Object o = getValueAt(row, column);
+			              
+			                    System.out.println("HELLO!" + o);
+			                    if (o != null)
+			                    {
+			                    	System.out.println(o);
+			                        return o.getClass();
+			                    }
+			                }
+
+			                return Object.class;
+			            }
+			        };
+
+//			        JScrollPane scrollPane = new JScrollPane( table );
+//			        listDialog.add( scrollPane );
+			        
+			        listDialog.setLayout(new BorderLayout());
+			        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
+			        listDialog.add(table, BorderLayout.CENTER);
+			        table.setVisible(true);
+			        
+			        JPanel buttonPanel = new JPanel();
+			        listDialog.add( buttonPanel, BorderLayout.SOUTH );
+			        
+			   
+			        
+			        listDialog.setVisible(true);
+			        
 			    }
 			}
 		});
