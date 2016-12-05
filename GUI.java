@@ -397,7 +397,7 @@ public class GUI {
 				
 				 	String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
-			        String pw = "helex12";
+			        String pw = "password";
 			        String sql = "SELECT * FROM voter WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
 
 	
@@ -457,9 +457,7 @@ public class GUI {
 
 			        
 
-			        String userid = "root";
-			        String pw = "password";
-			        String sql = "SELECT firstName, lastName, partyAffiliation FROM Candidates";
+			        sql = "SELECT firstName, lastName, partyAffiliation FROM Candidates";
 
 
 	
@@ -544,11 +542,58 @@ public class GUI {
 
 			      		
 			        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-
-						@Override
-						public void valueChanged(ListSelectionEvent arg0) {
+	
+						public void valueChanged(ListSelectionEvent event) {
 							JDialog confirm = new JDialog(myFrame,"Confirmation", true);
+							confirm.getContentPane().setLayout(null);
+							confirm.setSize(800, 400);
 							
+							JLabel msg = new JLabel("Are you sure you want to vote for this candidate?");
+							msg.setBounds(100, 10, 300,50);
+							
+							JButton yes = new JButton("Yes I do");
+							yes.setBounds(10, 100, 300, 100);
+							yes.addActionListener(new ActionListener(){
+								public void actionPerformed(ActionEvent e){
+									String candidateFirst = table.getValueAt(table.getSelectedRow(), 0).toString();
+									String candidateLast = table.getValueAt(table.getSelectedRow(), 1).toString();
+									String party = table.getValueAt(table.getSelectedRow(), 2).toString();
+									//TODO: CHANGE VOTER REGISTRATION STATUS AND ADD VOTE COUNT TO CANDIDATE
+									
+									confirm.dispose();
+									listDialog.dispose();
+									JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
+									cDialog.getContentPane().setLayout(null);
+									cDialog.setSize(500, 400);
+									
+									JLabel confirmMsg = new JLabel("Vote successfully casted for " + table.getValueAt(table.getSelectedRow(), 0).toString() + " " + table.getValueAt(table.getSelectedRow(), 1).toString() + " " + table.getValueAt(table.getSelectedRow(), 2).toString());
+									confirmMsg.setBounds(10,10, 400,50);
+									
+									JButton close = new JButton("Close.");
+									close.setBounds(70, 100, 300, 100);
+									close.addActionListener(new ActionListener(){
+										public void actionPerformed(ActionEvent e){
+											cDialog.dispose();
+										}
+									});
+									cDialog.add(close);
+									cDialog.add(confirmMsg);
+									cDialog.setVisible(true);
+								}
+							});
+							
+							JButton no = new JButton("No I do not.");
+							no.setBounds(400, 100, 300, 100);
+							no.addActionListener(new ActionListener(){
+								public void actionPerformed(ActionEvent e){
+									confirm.dispose();
+								}
+							});
+							
+							confirm.add(yes);
+							confirm.add(no);
+							confirm.add(msg);
+							confirm.setVisible(true);
 						}
 			        });
 			        
