@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.sql.Statement;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -411,44 +413,7 @@ public class GUI {
 			        catch (SQLException z)
 			        {
 			            System.out.println( z.getMessage() );
-			        }
-
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+			        }				
 				
 				
 				if (canVote == false){
@@ -488,21 +453,18 @@ public class GUI {
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
-					}
-					
-<<<<<<< HEAD
+					}				
+
 			        
-			        sql = "SELECT * FROM candidates";
-=======
-			        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+
 			        String userid = "root";
 			        String pw = "password";
 			        String sql = "SELECT firstName, lastName, partyAffiliation FROM Candidates";
->>>>>>> origin/master
+
 
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
-			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+			            Statement statement = connection.createStatement();			
 			            ResultSet rs = statement.executeQuery( sql ))
 			        {
 			            ResultSetMetaData md = rs.getMetaData();
@@ -580,7 +542,16 @@ public class GUI {
 			            }
 			        };
 
-			      
+			      		
+			        table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+
+						@Override
+						public void valueChanged(ListSelectionEvent arg0) {
+							JDialog confirm = new JDialog(myFrame,"Confirmation", true);
+							
+						}
+			        });
+			        
 			        listDialog.setLayout(new BorderLayout());
 			        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
 			        listDialog.add(table, BorderLayout.CENTER);
