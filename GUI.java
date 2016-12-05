@@ -245,7 +245,13 @@ public class GUI {
 		        }
 
 		        //  Create table with database data    
-		        JTable table = new JTable(dataVector, columnNamesVector)
+		        
+		        TableModel model = new DefaultTableModel(dataVector, columnNamesVector){
+		        	public boolean isCellEditable(int row, int column){
+		        		return false;
+		        	}
+		        };
+		        JTable table = new JTable(model)
 		        {
 		            public Class getColumnClass(int column)
 		            {
@@ -288,6 +294,123 @@ public class GUI {
 		tally.setHorizontalTextPosition(AbstractButton.CENTER);
 		tally.setBounds(300, 50, 200, 200);
 		tally.setToolTipText("This shows the current standings.");
+		tally.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				ArrayList columnNames = new ArrayList();
+		        ArrayList data = new ArrayList();
+		        
+				JDialog listDialog = new JDialog(myFrame, "List of candidates", true);
+				listDialog.getContentPane().setLayout(null);
+				listDialog.setSize(1280,720);
+
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+		        String userid = "root";
+		        String pw = "password";
+		        String sql = "SELECT * FROM Candidates ORDER BY voteCount DESC";
+
+
+		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+		            ResultSet rs = statement.executeQuery( sql ))
+		        {
+		            ResultSetMetaData md = rs.getMetaData();
+		            int columns = md.getColumnCount();
+
+
+		            for (int i = 1; i <= columns; i++)
+		            {
+		                columnNames.add( md.getColumnName(i) );
+		            }
+
+
+		            while (rs.next())
+		            {
+		                ArrayList row = new ArrayList(columns);
+
+		                for (int i = 1; i <= columns; i++)
+		                {
+		                    row.add( rs.getObject(i) );
+		                    
+		                }
+
+		                data.add( row );
+		                System.out.println(row);
+		            }
+		        }
+		        catch (SQLException z)
+		        {
+		            System.out.println( z.getMessage() );
+		        }
+
+		        Vector columnNamesVector = new Vector();
+		        Vector dataVector = new Vector();
+
+		        for (int i = 0; i < data.size(); i++)
+		        {
+		            ArrayList subArray = (ArrayList)data.get(i);
+		            Vector subVector = new Vector();
+		            for (int j = 0; j < subArray.size(); j++)
+		            {
+		                subVector.add(subArray.get(j));
+		            }
+		            dataVector.add(subVector);
+		        }
+
+		        for (int i = 0; i < columnNames.size(); i++ ){
+		            columnNamesVector.add(columnNames.get(i));
+		        }
+
+		        //  Create table with database data    
+		        
+		        TableModel model = new DefaultTableModel(dataVector, columnNamesVector){
+		        	public boolean isCellEditable(int row, int column){
+		        		return false;
+		        	}
+		        };
+		        JTable table = new JTable(model)
+		        {
+		            public Class getColumnClass(int column)
+		            {
+		            	System.out.println(getRowCount());
+		                for (int row = 0; row < getRowCount(); row++)
+		                {
+		                    Object o = getValueAt(row, column);
+		              
+		                    System.out.println("HELLO!" + o);
+		                    if (o != null)
+		                    {
+		                    	System.out.println(o);
+		                        return o.getClass();
+		                    }
+		                }
+
+		                return Object.class;
+		            }
+		        };
+
+//		        JScrollPane scrollPane = new JScrollPane( table );
+//		        listDialog.add( scrollPane );
+		        
+		        listDialog.setLayout(new BorderLayout());
+		        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
+		        listDialog.add(table, BorderLayout.CENTER);
+		        table.setVisible(true);
+		        
+		        JPanel buttonPanel = new JPanel();
+		        listDialog.add( buttonPanel, BorderLayout.SOUTH );
+		        
+		   
+		        
+		        listDialog.setVisible(true);
+			}
+		});
 		
 		
 		JButton print = new JButton("Print results");
@@ -295,6 +418,123 @@ public class GUI {
 		print.setHorizontalTextPosition(AbstractButton.CENTER);
 		print.setBounds(300, 300, 200, 200);
 		print.setToolTipText("This prints the results.");
+		print.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				ArrayList columnNames = new ArrayList();
+		        ArrayList data = new ArrayList();
+		        
+				JDialog listDialog = new JDialog(myFrame, "List of candidates", true);
+				listDialog.getContentPane().setLayout(null);
+				listDialog.setSize(1280,720);
+
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+		        String userid = "root";
+		        String pw = "password";
+		        String sql = "SELECT * FROM Candidates";
+
+
+		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+		            ResultSet rs = statement.executeQuery( sql ))
+		        {
+		            ResultSetMetaData md = rs.getMetaData();
+		            int columns = md.getColumnCount();
+
+
+		            for (int i = 1; i <= columns; i++)
+		            {
+		                columnNames.add( md.getColumnName(i) );
+		            }
+
+
+		            while (rs.next())
+		            {
+		                ArrayList row = new ArrayList(columns);
+
+		                for (int i = 1; i <= columns; i++)
+		                {
+		                    row.add( rs.getObject(i) );
+		                    
+		                }
+
+		                data.add( row );
+		                System.out.println(row);
+		            }
+		        }
+		        catch (SQLException z)
+		        {
+		            System.out.println( z.getMessage() );
+		        }
+
+		        Vector columnNamesVector = new Vector();
+		        Vector dataVector = new Vector();
+
+		        for (int i = 0; i < data.size(); i++)
+		        {
+		            ArrayList subArray = (ArrayList)data.get(i);
+		            Vector subVector = new Vector();
+		            for (int j = 0; j < subArray.size(); j++)
+		            {
+		                subVector.add(subArray.get(j));
+		            }
+		            dataVector.add(subVector);
+		        }
+
+		        for (int i = 0; i < columnNames.size(); i++ ){
+		            columnNamesVector.add(columnNames.get(i));
+		        }
+
+		        //  Create table with database data    
+		        
+		        TableModel model = new DefaultTableModel(dataVector, columnNamesVector){
+		        	public boolean isCellEditable(int row, int column){
+		        		return false;
+		        	}
+		        };
+		        JTable table = new JTable(model)
+		        {
+		            public Class getColumnClass(int column)
+		            {
+		            	System.out.println(getRowCount());
+		                for (int row = 0; row < getRowCount(); row++)
+		                {
+		                    Object o = getValueAt(row, column);
+		              
+		                    System.out.println("HELLO!" + o);
+		                    if (o != null)
+		                    {
+		                    	System.out.println(o);
+		                        return o.getClass();
+		                    }
+		                }
+
+		                return Object.class;
+		            }
+		        };
+
+//		        JScrollPane scrollPane = new JScrollPane( table );
+//		        listDialog.add( scrollPane );
+		        
+		        listDialog.setLayout(new BorderLayout());
+		        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
+		        listDialog.add(table, BorderLayout.CENTER);
+		        table.setVisible(true);
+		        
+		        JPanel buttonPanel = new JPanel();
+		        listDialog.add( buttonPanel, BorderLayout.SOUTH );
+		        
+		   
+		        
+		        listDialog.setVisible(true);
+			}
+		});
 		
 		JButton ballot = new JButton("New ballot");
 		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -360,7 +600,7 @@ public class GUI {
 	
 	public static void voterMenu(){
 		
-		Voter voter = new Voter(); 		// This is just a voter object to code. It doesn't do anything.
+
 		JDialog dialog = new JDialog(myFrame, "Voter Menu", true);
 		dialog.getContentPane().setLayout(null);
 		dialog.setSize(1280,720);
