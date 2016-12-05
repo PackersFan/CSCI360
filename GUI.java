@@ -251,38 +251,11 @@ public class GUI {
 		dialog.setLayout(null);
 		dialog.getContentPane().setLayout(null);
 		
-		JLabel fName = new JLabel("First name: ");
-		fName.setBounds(10, 10, 200, 100);
+		JLabel text = new JLabel("Voter ID: ");
+		text.setBounds(50,20, 200,100);
 		
-		JLabel lName = new JLabel("Last name: ");
-		lName.setBounds(10, 70, 200, 100);
-		
-		JLabel pSSNLabel = new JLabel("Password: ");
-		SSNLabel.setBounds(10, 130, 200, 100);
-				
 		JTextField fText = new JTextField();
 		fText.setBounds(250, 50, 200,30);
-		
-		JTextField lText = new JTextField();
-		lText.setBounds(250, 110, 200,30);
-		
-		JTextField SSNText = new JTextField();
-		SSNText.setBounds(250, 170,200,30);
-		
-		JButton check = new JButton("Check registration");
-		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setBounds(490,500,300,100);
-		check.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				
-				String first = fText.getText();
-				String last = lText.getText();
-				int password = Integer.parseInt(SSNText.getText());
-				
-				//TODO: CHECK IF VOTER IS REGISTERED IN DATABASE.
-			}
-		});
 		
 		JButton close = new JButton("Close");
 		close.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -294,15 +267,24 @@ public class GUI {
 			}
 
 		});		
+
+		
+		JButton check = new JButton("Check registration");
+		check.setHorizontalTextPosition(AbstractButton.CENTER);
+		check.setHorizontalTextPosition(AbstractButton.CENTER);
+		check.setBounds(490,500,300,100);
+		check.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				//TODO: CHECK IF VOTER IS REGISTERED IN DATABASE.
+			}
+		});
 		
 		
 		
-		dialog.add(fName);
-		dialog.add(lName);
-		dialog.add(SSNLabel;
+		dialog.add(text);
 		dialog.add(fText);
-		dialog.add(lText);
-		dialog.add(SSNText);
+		dialog.add(check);
+		dialog.add(close);
 		dialog.setVisible(true);
 	}
 	
@@ -383,7 +365,7 @@ public class GUI {
 					
 			        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
-			        String pw = "helex12";
+			        String pw = "";
 			        String sql = "SELECT * FROM voter";
 
 	
@@ -399,7 +381,8 @@ public class GUI {
 			            {
 			                columnNames.add( md.getColumnName(i) );
 			            }
-
+			            Object[] columnArr = new Object[columnNames.size()];
+			            columnArr = columnNames.toArray(columnArr);
 
 			            while (rs.next())
 			            {
@@ -411,59 +394,23 @@ public class GUI {
 			                    
 			                }
 
-			                data.add( row );
+			                data.add( row ); //listDialog show that the data is being grabbed from database
+			                Object[] rowArr = new String[row.size()];
+				            rowArr = row.toArray(rowArr);
 			                System.out.println(row);
+			                JTable table = new JTable(rowArr, columnArr); 
 			            }
+			           
+			            
+			           
 			        }
+			    
 			        catch (SQLException z)
 			        {
 			            System.out.println( z.getMessage() );
 			        }
 
-			        Vector columnNamesVector = new Vector();
-			        Vector dataVector = new Vector();
-
-			        for (int i = 0; i < data.size(); i++)
-			        {
-			            ArrayList subArray = (ArrayList)data.get(i);
-			            Vector subVector = new Vector();
-			            for (int j = 0; j < subArray.size(); j++)
-			            {
-			                subVector.add(subArray.get(j));
-			            }
-			            dataVector.add(subVector);
-			        }
-
-			        for (int i = 0; i < columnNames.size(); i++ )
-			            columnNamesVector.add(columnNames.get(i));
-
-			        //  Create table with database data    
-			        JTable table = new JTable(dataVector, columnNamesVector)
-			        {
-			            public Class getColumnClass(int column)
-			            {
-			                for (int row = 0; row < getRowCount(); row++)
-			                {
-			                    Object o = getValueAt(row, column);
-			                    
-			                    if (o != null)
-			                    {
-			                        return o.getClass();
-			                    }
-			                }
-
-			                return Object.class;
-			            }
-			        };
-
-			        JScrollPane scrollPane = new JScrollPane( table );
-			        listDialog.add( scrollPane );
-
-			        JPanel buttonPanel = new JPanel();
-			        listDialog.add( buttonPanel, BorderLayout.SOUTH );
-			        
-			        
-			        listDialog.setVisible(true);
+			       
 			    }
 			}
 		});
