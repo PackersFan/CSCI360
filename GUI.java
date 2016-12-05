@@ -387,12 +387,71 @@ public class GUI {
 		login.setBounds(50, 350, 300, 100);
 		login.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				Boolean canVote = false;
 				String first = fText.getText();
 				String last = lText.getText();
 				String password = passwordField.getText();
 				// TODO: USE DATA TO CHECK IN DATABASE
 				
-				if (voter.getRegistrationStatus() == false){
+				 	String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+			        String userid = "root";
+			        String pw = "helex12";
+			        String sql = "SELECT * FROM voter WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
+
+	
+			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+			            ResultSet rs = statement.executeQuery( sql ))
+			        {
+			           if(rs != null){
+			        	   rs.next();
+			        	   canVote = rs.getBoolean(5);
+			           }
+			        }
+			        catch (SQLException z)
+			        {
+			            System.out.println( z.getMessage() );
+			        }
+
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				if (canVote == false){
 					JDialog dError = new JDialog(myFrame, "Error", true);
 					dError.setSize(400, 500);
 					
@@ -431,10 +490,15 @@ public class GUI {
 						e1.printStackTrace();
 					}
 					
+<<<<<<< HEAD
+			        
+			        sql = "SELECT * FROM candidates";
+=======
 			        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
 			        String pw = "password";
 			        String sql = "SELECT firstName, lastName, partyAffiliation FROM Candidates";
+>>>>>>> origin/master
 
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
@@ -516,9 +580,7 @@ public class GUI {
 			            }
 			        };
 
-//			        JScrollPane scrollPane = new JScrollPane( table );
-//			        listDialog.add( scrollPane );
-			        
+			      
 			        listDialog.setLayout(new BorderLayout());
 			        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
 			        listDialog.add(table, BorderLayout.CENTER);
