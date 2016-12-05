@@ -1,3 +1,5 @@
+package evoting;
+
 public class Voter extends Person {
 
 	private boolean registrationStatus;

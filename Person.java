@@ -1,3 +1,5 @@
+package evoting;
+
 public class Person {
 
 	private String firstName;

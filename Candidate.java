@@ -1,3 +1,5 @@
+package evoting;
+
 public class Candidate extends Person {
 
 	private String partyAffiliation;

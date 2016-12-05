@@ -1,3 +1,5 @@
+package evoting;
+
 import java.time.LocalTime;
 public class pollWorker extends Person {
 

@@ -1,5 +1,4 @@
-
-package votedialog;
+package evoting;
 
 /*
  * VoteDialog.java is a 1.4 example that requires

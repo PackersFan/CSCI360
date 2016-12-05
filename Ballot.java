@@ -1,3 +1,5 @@
+package evoting;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 public class Ballot {

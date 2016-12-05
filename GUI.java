@@ -383,7 +383,7 @@ public class GUI {
 					
 			        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
-			        String pw = "";
+			        String pw = "helex12";
 			        String sql = "SELECT * FROM voter";
 
 	
@@ -408,9 +408,11 @@ public class GUI {
 			                for (int i = 1; i <= columns; i++)
 			                {
 			                    row.add( rs.getObject(i) );
+			                    
 			                }
 
 			                data.add( row );
+			                System.out.println(row);
 			            }
 			        }
 			        catch (SQLException z)
@@ -443,7 +445,7 @@ public class GUI {
 			                for (int row = 0; row < getRowCount(); row++)
 			                {
 			                    Object o = getValueAt(row, column);
-
+			                    
 			                    if (o != null)
 			                    {
 			                        return o.getClass();
@@ -459,6 +461,9 @@ public class GUI {
 
 			        JPanel buttonPanel = new JPanel();
 			        listDialog.add( buttonPanel, BorderLayout.SOUTH );
+			        
+			        
+			        listDialog.setVisible(true);
 			    }
 			}
 		});
