@@ -1,6 +1,8 @@
+package evoting;
+
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.Statement;
+import java.sql.Statement;
 
 import javax.swing.*;
 import java.io.*;
@@ -8,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.*;
 /*TODO: ADD STUFF TO ALL BUTTONS Ctrl+F JButtons
  * CHANGE DIMENSIONS EVENTUALLY Ctrl+F setBounds
@@ -353,16 +356,22 @@ public class GUI {
 					listDialog.getContentPane().setLayout(null);
 					listDialog.setSize(1280,720);
 
-
-			        String url = "jdbc:mysql://localhost:3306/votings";
+					try {
+						Class.forName("com.mysql.jdbc.Driver");
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+			        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
-			        String pw = "helex12";
+			        String pw = "";
 			        String sql = "SELECT * FROM voter";
 
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
-			            Statement stmt = connection.createStatement();			// TODO: CHANGE THIS
-			            ResultSet rs = stmt.executeQuery( sql ))
+			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+			            ResultSet rs = statement.executeQuery( sql ))
 			        {
 			            ResultSetMetaData md = rs.getMetaData();
 			            int columns = md.getColumnCount();
@@ -386,9 +395,9 @@ public class GUI {
 			                data.add( row );
 			            }
 			        }
-			        catch (SQLException e)
+			        catch (SQLException z)
 			        {
-			            System.out.println( e.getMessage() );
+			            System.out.println( z.getMessage() );
 			        }
 
 			        Vector columnNamesVector = new Vector();
