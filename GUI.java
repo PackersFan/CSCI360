@@ -251,11 +251,38 @@ public class GUI {
 		dialog.setLayout(null);
 		dialog.getContentPane().setLayout(null);
 		
-		JLabel text = new JLabel("Voter ID: ");
-		text.setBounds(50,20, 200,100);
+		JLabel fName = new JLabel("First name: ");
+		fName.setBounds(10, 10, 200, 100);
 		
+		JLabel lName = new JLabel("Last name: ");
+		lName.setBounds(10, 70, 200, 100);
+		
+		JLabel pSSNLabel = new JLabel("Password: ");
+		SSNLabel.setBounds(10, 130, 200, 100);
+				
 		JTextField fText = new JTextField();
 		fText.setBounds(250, 50, 200,30);
+		
+		JTextField lText = new JTextField();
+		lText.setBounds(250, 110, 200,30);
+		
+		JTextField SSNText = new JTextField();
+		SSNText.setBounds(250, 170,200,30);
+		
+		JButton check = new JButton("Check registration");
+		check.setHorizontalTextPosition(AbstractButton.CENTER);
+		check.setHorizontalTextPosition(AbstractButton.CENTER);
+		check.setBounds(490,500,300,100);
+		check.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				
+				String first = fText.getText();
+				String last = lText.getText();
+				int password = Integer.parseInt(SSNText.getText());
+				
+				//TODO: CHECK IF VOTER IS REGISTERED IN DATABASE.
+			}
+		});
 		
 		JButton close = new JButton("Close");
 		close.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -267,24 +294,15 @@ public class GUI {
 			}
 
 		});		
-
-		
-		JButton check = new JButton("Check registration");
-		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setHorizontalTextPosition(AbstractButton.CENTER);
-		check.setBounds(490,500,300,100);
-		check.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				//TODO: CHECK IF VOTER IS REGISTERED IN DATABASE.
-			}
-		});
 		
 		
 		
-		dialog.add(text);
+		dialog.add(fName);
+		dialog.add(lName);
+		dialog.add(SSNLabel;
 		dialog.add(fText);
-		dialog.add(check);
-		dialog.add(close);
+		dialog.add(lText);
+		dialog.add(SSNText);
 		dialog.setVisible(true);
 	}
 	
