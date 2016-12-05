@@ -547,6 +547,11 @@ public class GUI {
 		candidate.setHorizontalTextPosition(AbstractButton.CENTER);
 		candidate.setBounds(550, 300, 200, 200);
 		candidate.setToolTipText("Brings up menu to add a new candidate.");
+		candidate.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				addCandidate();
+			}
+		});
 		
 		dialog.add(regVoter);		
 		dialog.add(check);
@@ -558,6 +563,49 @@ public class GUI {
 		dialog.setVisible(true);
 	}
 	
+	public static void addCandidate(){
+		JDialog dialog = new JDialog(myFrame, "Register voter", true);
+		dialog.setSize(1280, 720);
+		dialog.setLocationRelativeTo(myFrame);
+		dialog.setLayout(null);
+		dialog.getContentPane().setLayout(null);
+		
+		JLabel first = new JLabel("First name: ");
+		first.setBounds(10,10, 200,50);
+		JLabel last = new JLabel("Last name: ");
+		last.setBounds(10,70, 200,50);
+		JLabel party = new JLabel("Party Affiliation: ");
+		party.setBounds(10,130, 200,50);
+		
+		JTextField fFirst = new JTextField();
+		JTextField fLast = new JTextField();
+		JTextField fParty = new JTextField();
+		fFirst.setBounds(250, 10, 200, 30);
+		fLast.setBounds(250, 70, 200, 30);
+		fParty.setBounds(250, 130, 100, 30);
+		
+		JButton add = new JButton("Add");
+		add.setHorizontalTextPosition(AbstractButton.CENTER);
+		add.setVerticalTextPosition(AbstractButton.CENTER);
+		add.setBounds(490, 500, 300, 100);
+		add.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String firstName = fFirst.getText();
+				String lastName = fLast.getText();
+				String partyAff = fParty.getText();
+				//TODO: ADD CANDIDATE TO DATABASE 
+			}
+		});		
+		
+		dialog.add(first);
+		dialog.add(last);
+		dialog.add(party);
+		dialog.add(register);	
+		dialog.add(fFirst);
+		dialog.add(fLast);
+		dialog.add(fParty);
+		dialog.setVisible(true);
+	}
 	public static void registerVoter(){
 		JDialog dialog = new JDialog(myFrame, "Register voter", true);
 		dialog.setSize(1280, 720);
@@ -583,7 +631,14 @@ public class GUI {
 		register.setHorizontalTextPosition(AbstractButton.CENTER);
 		register.setVerticalTextPosition(AbstractButton.CENTER);
 		register.setBounds(490, 500, 300, 100);
-		
+		register.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String firstName = fFirst.getText();
+				String lastName = fLast.getText();
+				String pw = fPassword.getText();
+				//TODO: ADD VOTER TO DATABASE 
+			}
+		});	
 		
 		
 		dialog.add(first);
