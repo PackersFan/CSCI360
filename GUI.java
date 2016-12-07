@@ -1,4 +1,4 @@
-package evoting;
+//package evoting;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -556,12 +556,7 @@ public class GUI {
 		        listDialog.setVisible(true);
 			}
 		});
-		
-		JButton ballot = new JButton("New ballot");
-		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
-		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
-		ballot.setBounds(550, 50, 200, 200);
-		ballot.setToolTipText("This brings up menu to create new ballot.");
+
 		
 		JButton candidate = new JButton("Add candidate");
 		candidate.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -578,7 +573,7 @@ public class GUI {
 		dialog.add(check);
 		dialog.add(tally);
 		dialog.add(print);
-		dialog.add(ballot);
+
 		dialog.add(candidate);
 		dialog.getContentPane().setLayout(null);
 		dialog.setVisible(true);
