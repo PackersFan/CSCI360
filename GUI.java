@@ -622,10 +622,28 @@ public class GUI {
 		        {
 		        	statement.executeUpdate( sql );
 		        } 
+		        
 		        catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		        dialog.dispose();
+
+				JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
+				cDialog.getContentPane().setLayout(null);
+				cDialog.setSize(500, 400);
+				JButton close = new JButton("Close.");
+				close.setBounds(70, 100, 300, 100);
+				close.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						cDialog.dispose();
+					}
+				});
+				JLabel confirmMsg = new JLabel("Candidate successfully added.");
+				confirmMsg.setBounds(10, 10, 200, 50);
+				cDialog.add(close);
+				cDialog.add(confirmMsg);
+				cDialog.setVisible(true);
 			}
 			});		
 		
@@ -687,7 +705,24 @@ public class GUI {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+				JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
+				cDialog.getContentPane().setLayout(null);
+				cDialog.setSize(500, 400);
+				JButton close = new JButton("Close.");
+				close.setBounds(70, 100, 300, 100);
+				close.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						cDialog.dispose();
+					}
+				});
+				JLabel confirmMsg = new JLabel("Voter successfully added.");
+				confirmMsg.setBounds(10, 10, 200, 50);
+				cDialog.add(close);
+				cDialog.add(confirmMsg);
+				cDialog.setVisible(true);
 			}
+			
+			
 
 		});
 		
