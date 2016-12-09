@@ -1,0 +1,1 @@
+INSERT into pollAdmin(firstName, lastName, pass) VALUES ('Carson', 'Smith', 'dog') 

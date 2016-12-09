@@ -1,4 +1,4 @@
-package evoting;
+//package evoting;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -108,15 +108,36 @@ public class GUI {
 				String password = passwordField.getText();
 				//TODO: DO STUFF WITH ADMIN INFO WITH DATABASE
 				
-				pollWorker worker = new pollWorker();
-				if(worker != null){  			// CHECK IF WORKER IS IN DATABASE CHANGE THIS
+				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+		        String userid = "root";
+		        String pw = "helex12";
+		        String sql = "SELECT * FROM polladmin WHERE firstName = '" + first + "' AND lastName = '" + last + "'AND pass = '" + password + "'"; 
+		        boolean isAdmin = false; 
+		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
+			            ResultSet rs = statement.executeQuery( sql ))
+			        {
+			           if(rs != null){
+			        	   rs.next();
+			        	   isAdmin = rs.getString("pass") != null; 
+			           }
+			        }
+			        catch (SQLException z)
+			        {
+			            System.out.println( z.getMessage() );
+			        }		
+
+		      
+				//pollWorker worker = new pollWorker();
+				if(isAdmin != false){  			// CHECK IF WORKER IS IN DATABASE CHANGE THIS
+					
 					adminMenu();
 				}
 				else{
 					JDialog dError = new JDialog(myFrame, "Error", true);
 					dError.setSize(400, 500);
 					
-					JLabel msg = new JLabel("Voter has already voted.");
+					JLabel msg = new JLabel("This user is not an admin.");
 					msg.setBounds(50,50,200,30);			
 					
 					JButton close = new JButton("Close");
@@ -176,7 +197,7 @@ public class GUI {
 				ArrayList columnNames = new ArrayList();
 		        ArrayList data = new ArrayList();
 		        
-				JDialog listDialog = new JDialog(myFrame, "List of candidates", true);
+				JDialog listDialog = new JDialog(myFrame, "List of Voters", true);
 				listDialog.getContentPane().setLayout(null);
 				listDialog.setSize(1280,720);
 
@@ -190,7 +211,7 @@ public class GUI {
 		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
 		        String pw = "helex12";
-		        String sql = "SELECT * FROM Voter";
+		        String sql = "SELECT firstName, lastName, voterID, registrationStatus FROM Voter";
 
 
 		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
@@ -535,12 +556,7 @@ public class GUI {
 		        listDialog.setVisible(true);
 			}
 		});
-		
-		JButton ballot = new JButton("New ballot");
-		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
-		ballot.setHorizontalTextPosition(AbstractButton.CENTER);
-		ballot.setBounds(550, 50, 200, 200);
-		ballot.setToolTipText("This brings up menu to create new ballot.");
+
 		
 		JButton candidate = new JButton("Add candidate");
 		candidate.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -557,7 +573,7 @@ public class GUI {
 		dialog.add(check);
 		dialog.add(tally);
 		dialog.add(print);
-		dialog.add(ballot);
+
 		dialog.add(candidate);
 		dialog.getContentPane().setLayout(null);
 		dialog.setVisible(true);
@@ -594,8 +610,42 @@ public class GUI {
 				String lastName = fLast.getText();
 				String partyAff = fParty.getText();
 				//TODO: ADD CANDIDATE TO DATABASE 
+				
+				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+		        String userid = "root";
+		        String pw = "helex12";
+		        String sql = "INSERT INTO Candidates(firstName, lastName, partyAffiliation) VALUES( '" + firstName + "','" + lastName + "','" + partyAff + "')"; 
+
+
+		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		            Statement statement = connection.createStatement())			// TODO: CHANGE THIS    
+		        {
+		        	statement.executeUpdate( sql );
+		        } 
+		        
+		        catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		});		
+		        dialog.dispose();
+
+				JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
+				cDialog.getContentPane().setLayout(null);
+				cDialog.setSize(500, 400);
+				JButton close = new JButton("Close.");
+				close.setBounds(70, 100, 300, 100);
+				close.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						cDialog.dispose();
+					}
+				});
+				JLabel confirmMsg = new JLabel("Candidate successfully added.");
+				confirmMsg.setBounds(10, 10, 200, 50);
+				cDialog.add(close);
+				cDialog.add(confirmMsg);
+				cDialog.setVisible(true);
+			}
+			});		
 		
 		dialog.add(first);
 		dialog.add(last);
@@ -635,10 +685,47 @@ public class GUI {
 			public void actionPerformed(ActionEvent e){
 				String firstName = fFirst.getText();
 				String lastName = fLast.getText();
-				String pw = fPassword.getText();
+				String password = fPassword.getText();
+				Boolean registrationStatus = true;
 				//TODO: ADD VOTER TO DATABASE 
+
+				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
+		        String userid = "root";
+		        String pw = "helex12";
+		        String sql = "INSERT INTO Voter(firstName, lastName, pass) VALUES( '" + firstName + "','" + lastName + "','" + password + "')"; 
+
+
+		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		            Statement statement = connection.createStatement())			// TODO: CHANGE THIS    
+		        {
+		        	statement.executeUpdate( sql );
+		        	
+		        } 
+		        catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
-		});	
+				JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
+				cDialog.getContentPane().setLayout(null);
+				cDialog.setSize(500, 400);
+				JButton close = new JButton("Close.");
+				close.setBounds(70, 100, 300, 100);
+				close.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						cDialog.dispose();
+					}
+				});
+				JLabel confirmMsg = new JLabel("Voter successfully added.");
+				confirmMsg.setBounds(10, 10, 200, 50);
+				cDialog.add(close);
+				cDialog.add(confirmMsg);
+				cDialog.setVisible(true);
+			}
+			
+			
+
+		});
+		
 		
 		
 		dialog.add(first);
