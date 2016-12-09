@@ -1,4 +1,4 @@
-package evoting;
+//package evoting;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,6 +21,10 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import javax.print.*;
 
 /*TODO: ADD STUFF TO ALL BUTTONS Ctrl+F JButtons
@@ -28,11 +32,16 @@ import javax.print.*;
  * ADD getTallys,printResults to adminMenu() and implement them outside.
  * 
  * Listing tuples in a database from here: http://stackoverflow.com/questions/21898053/display-records-from-mysql-database-using-jtable-in-java
+ * Encryption algorithm taken from here: http://howtodoinjava.com/security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/
 */
+
+
 public class GUI {	
 	
 	static JFrame myFrame;	
-	
+	private static int N = 1024;
+
+
 	
 	public static void makeGUI(){
 		
@@ -712,10 +721,10 @@ public class GUI {
 		
 		JTextField fFirst = new JTextField();
 		JTextField fLast = new JTextField();
-		JTextField fPassword = new JTextField(9);
+		JPasswordField passwordField = new JPasswordField(9);
 		fFirst.setBounds(250, 10, 200, 30);
 		fLast.setBounds(250, 70, 200, 30);
-		fPassword.setBounds(250, 130, 100, 30);
+		passwordField.setBounds(250, 130, 100, 30);
 		
 		JButton close = new JButton("Close");
 		close.setBounds(400, 350, 300, 100);
@@ -735,15 +744,16 @@ public class GUI {
 			public void actionPerformed(ActionEvent e){
 				String firstName = fFirst.getText();
 				String lastName = fLast.getText();
-				String password = fPassword.getText();
+				//String password = passwordField.getText();
 				Boolean registrationStatus = true;
-				//TODO: ADD VOTER TO DATABASE 
+				String password = md5(new String (passwordField.getPassword()));
+
 
 				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
 		        String pw = "helex12";
 		        String sql = "INSERT INTO Voter(firstName, lastName, pass, registrationStatus) VALUES( '" + firstName + "','" + lastName + "','" + password + "','" + 1 + "')"; 
-
+		        System.out.println(sql);
 
 		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
 		            Statement statement = connection.createStatement())			// TODO: CHANGE THIS    
@@ -784,7 +794,7 @@ public class GUI {
 		dialog.add(register);	
 		dialog.add(fFirst);
 		dialog.add(fLast);
-		dialog.add(fPassword);
+		dialog.add(passwordField);
 		dialog.setVisible(true);
 	}
 	
@@ -833,8 +843,14 @@ public class GUI {
 			public void actionPerformed(ActionEvent e){
 				Integer canVote = 0;
 				String first = fText.getText();
-				String last = lText.getText();
-				String password = new String(passwordField.getPassword());
+				String last = lText.getText();				
+				//String password = new String(passwordField.getPassword());				
+				String password = md5(new String (passwordField.getPassword()));
+				
+				
+
+
+
 				
 				fText.setText("");
 				lText.setText("");
@@ -1127,13 +1143,42 @@ public class GUI {
 		
 	}
 
+    public static String md5(String password) 
+    {
+        String passwordToHash = password;
+        String generatedPassword = null;
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            //Add password bytes to digest
+            md.update(passwordToHash.getBytes());
+            //Get the hash's bytes 
+            byte[] bytes = md.digest();
+            //This bytes[] has bytes in decimal format;
+            //Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+        } 
+        catch (NoSuchAlgorithmException e) 
+        {
+            e.printStackTrace();
+        }
+        return generatedPassword;
+    }
 	public static void main(String[] args){
+		
 		myFrame = new JFrame("Electronic Voting System");
 		myFrame.getContentPane().setLayout(null);
 		myFrame.setLayout(null);		
 		//voterMenu();
 		makeGUI();
 		
+
 	
 	}
 	
