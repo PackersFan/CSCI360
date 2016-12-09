@@ -40,7 +40,7 @@ public class GUI {
 	
 	static JFrame myFrame;	
 	private static int N = 1024;
-
+	static String databasePass = ""; //define your root account db password here
 
 	
 	public static void makeGUI(){
@@ -138,10 +138,10 @@ public class GUI {
 				
 				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
-		        String pw = "helex12";
+		        String pw = databasePass;
 		        String sql = "SELECT * FROM polladmin WHERE firstName = '" + first + "' AND lastName = '" + last + "'AND pass = '" + password + "'"; 
 		        boolean isAdmin = false; 
-		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		        try (Connection connection = DriverManager.getConnection( url, userid, databasePass );
 			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
 			            ResultSet rs = statement.executeQuery( sql ))
 			        {
@@ -249,11 +249,11 @@ public class GUI {
 				
 		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
-		        String pw = "helex12";
+		        String pw = databasePass;
 		        String sql = "SELECT firstName, lastName, voterID, registrationStatus FROM Voter";
 
 
-		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
+		        try (Connection connection = DriverManager.getConnection( url, userid, databasePass );
 		            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
 		            ResultSet rs = statement.executeQuery( sql ))
 		        {
@@ -373,7 +373,7 @@ public class GUI {
 				
 		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
-		        String pw = "helex12";
+		        String pw = databasePass;
 		        String sql = "SELECT * FROM Candidates ORDER BY voteCount DESC";
 
 
@@ -498,7 +498,7 @@ public class GUI {
 				
 		        String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
-		        String pw = "helex12";
+		        String pw = databasePass;
 		        String sql = "SELECT * FROM Candidates";
 
 
@@ -665,7 +665,7 @@ public class GUI {
 				
 				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
-		        String pw = "helex12";
+		        String pw = databasePass;
 		        String sql = "INSERT INTO Candidates(firstName, lastName, partyAffiliation) VALUES( '" + firstName + "','" + lastName + "','" + partyAff + "')"; 
 
 
@@ -754,7 +754,7 @@ public class GUI {
 
 				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
-		        String pw = "helex12";
+		        String pw = databasePass;
 		        String sql = "INSERT INTO Voter(firstName, lastName, pass, registrationStatus) VALUES( '" + firstName + "','" + lastName + "','" + password + "','" + 1 + "')"; 
 		        System.out.println(sql);
 
@@ -862,7 +862,7 @@ public class GUI {
 				
 				 	String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 			        String userid = "root";
-			        String pw = "helex12";
+			        String pw = databasePass;
 			        String sql = "SELECT * FROM voter WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
 			        String userpass = "SELECT pass FROM voter WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
 	
