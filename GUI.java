@@ -45,8 +45,7 @@ public class GUI {
 		myPanel.add(new JLabel("Welcome to the electronic voting system"));
 		
 		JMenuBar myMenuBar = new JMenuBar();
-		myFrame.setJMenuBar(myMenuBar);
-		
+		myFrame.setJMenuBar(myMenuBar);				
 
 		
 		JButton adminButton = new JButton("Admin menu");
@@ -100,8 +99,18 @@ public class GUI {
 		JTextField lText = new JTextField();
 		lText.setBounds(250, 110, 200,30);
 		
-		JTextField passwordField = new JTextField();
+		JPasswordField passwordField = new JPasswordField();
 		passwordField.setBounds(250, 170,200,30);
+		
+		JButton close = new JButton("Close");
+		close.setBounds(400, 350, 300, 100);
+		close.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dialog.dispose();
+			}
+		});
+		
+		dialog.add(close);
 		
 		JButton login =new JButton("Login");
 		login.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -111,7 +120,11 @@ public class GUI {
 			public void actionPerformed(ActionEvent e){
 				String first = fText.getText();
 				String last = lText.getText();
-				String password = passwordField.getText();
+				String password = new String(passwordField.getPassword());
+				
+				fText.setText("");
+				lText.setText("");
+				passwordField.setText("");
 				//TODO: DO STUFF WITH ADMIN INFO WITH DATABASE
 				
 				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
@@ -182,6 +195,16 @@ public class GUI {
 		dialog.setSize(1280,720);		
 		dialog.setLocationRelativeTo(myFrame);
 		
+		JButton close = new JButton("Close");
+		close.setBounds(70, 550, 300, 100);
+		close.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dialog.dispose();
+			}
+		});
+		
+		dialog.add(close);
+		
 		JButton regVoter = new JButton("Register Voter");
 		regVoter.setVerticalTextPosition(AbstractButton.CENTER);
 		regVoter.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -205,7 +228,8 @@ public class GUI {
 		        
 				JDialog listDialog = new JDialog(myFrame, "List of Voters", true);
 				listDialog.getContentPane().setLayout(null);
-				listDialog.setSize(1280,720);
+				listDialog.setSize(1280,720);				
+
 
 				try {
 					Class.forName("com.mysql.jdbc.Driver");
@@ -586,7 +610,7 @@ public class GUI {
 	}
 	
 	public static void addCandidate(){
-		JDialog dialog = new JDialog(myFrame, "Register voter", true);
+		JDialog dialog = new JDialog(myFrame, "Add candidate", true);
 		dialog.setSize(1280, 720);
 		dialog.setLocationRelativeTo(myFrame);
 		dialog.setLayout(null);
@@ -606,10 +630,20 @@ public class GUI {
 		fLast.setBounds(250, 70, 200, 30);
 		fParty.setBounds(250, 130, 100, 30);
 		
+		JButton close = new JButton("Close");
+		close.setBounds(400, 350, 300, 100);
+		close.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dialog.dispose();
+			}
+		});
+		
+		dialog.add(close);
+		
 		JButton add = new JButton("Add");
 		add.setHorizontalTextPosition(AbstractButton.CENTER);
 		add.setVerticalTextPosition(AbstractButton.CENTER);
-		add.setBounds(490, 500, 300, 100);
+		add.setBounds(70, 350, 300, 100);
 		add.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String firstName = fFirst.getText();
@@ -638,7 +672,7 @@ public class GUI {
 				JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
 				cDialog.getContentPane().setLayout(null);
 				cDialog.setSize(500, 400);
-				JButton close = new JButton("Close.");
+				JButton close = new JButton("Close");
 				close.setBounds(70, 100, 300, 100);
 				close.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
@@ -683,10 +717,20 @@ public class GUI {
 		fLast.setBounds(250, 70, 200, 30);
 		fPassword.setBounds(250, 130, 100, 30);
 		
+		JButton close = new JButton("Close");
+		close.setBounds(400, 350, 300, 100);
+		close.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dialog.dispose();
+			}
+		});
+		
+		dialog.add(close);
+		
 		JButton register = new JButton("Register voter");
 		register.setHorizontalTextPosition(AbstractButton.CENTER);
 		register.setVerticalTextPosition(AbstractButton.CENTER);
-		register.setBounds(490, 500, 300, 100);
+		register.setBounds(70, 350, 300, 100);
 		register.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				String firstName = fFirst.getText();
@@ -714,7 +758,7 @@ public class GUI {
 				JDialog cDialog = new JDialog(myFrame, "Confirmation", true);
 				cDialog.getContentPane().setLayout(null);
 				cDialog.setSize(500, 400);
-				JButton close = new JButton("Close.");
+				JButton close = new JButton("Close");
 				close.setBounds(70, 100, 300, 100);
 				close.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
@@ -768,8 +812,18 @@ public class GUI {
 		JTextField lText = new JTextField();
 		lText.setBounds(250, 110, 200,30);
 		
-		JTextField passwordField = new JTextField();
+		JPasswordField passwordField = new JPasswordField();
 		passwordField.setBounds(250, 170,200,30);
+		
+		JButton close = new JButton("Close");
+		close.setBounds(400, 350, 300, 100);
+		close.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				dialog.dispose();
+			}
+		});
+		
+		dialog.add(close);
 		
 		JButton login =new JButton("Login");
 		login.setHorizontalTextPosition(AbstractButton.CENTER);
@@ -780,7 +834,11 @@ public class GUI {
 				Integer canVote = 0;
 				String first = fText.getText();
 				String last = lText.getText();
-				String password = passwordField.getText();
+				String password = new String(passwordField.getPassword());
+				
+				fText.setText("");
+				lText.setText("");
+				passwordField.setText("");
 				// TODO: USE DATA TO CHECK IN DATABASE
 				
 				 	String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
@@ -1011,7 +1069,7 @@ public class GUI {
 								        {
 								            System.out.println( z.getMessage() );
 								        }	
-									JButton close = new JButton("Close.");
+									JButton close = new JButton("Close");
 									close.setBounds(70, 100, 300, 100);
 									close.addActionListener(new ActionListener(){
 										public void actionPerformed(ActionEvent e){
