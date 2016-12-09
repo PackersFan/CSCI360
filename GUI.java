@@ -845,7 +845,7 @@ public class GUI {
 			        String userid = "root";
 			        String pw = "helex12";
 			        String sql = "SELECT * FROM voter WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
-
+			        String userpass = "SELECT pass FROM voter WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
 	
 			        try (Connection connection = DriverManager.getConnection( url, userid, pw );
 			            Statement statement = connection.createStatement();			// TODO: CHANGE THIS
