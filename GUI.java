@@ -1,9 +1,12 @@
-//package evoting;
+package evoting;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Statement;
 
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -17,6 +20,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.*;
+
+import javax.print.*;
+
 /*TODO: ADD STUFF TO ALL BUTTONS Ctrl+F JButtons
  * CHANGE DIMENSIONS EVENTUALLY Ctrl+F setBounds
  * ADD getTallys,printResults to adminMenu() and implement them outside.
@@ -692,7 +698,7 @@ public class GUI {
 				String url = "jdbc:mysql://localhost:3306/voting?autoReconnect=true&useSSL=false";
 		        String userid = "root";
 		        String pw = "helex12";
-		        String sql = "INSERT INTO Voter(firstName, lastName, pass) VALUES( '" + firstName + "','" + lastName + "','" + password + "')"; 
+		        String sql = "INSERT INTO Voter(firstName, lastName, pass, registrationStatus) VALUES( '" + firstName + "','" + lastName + "','" + password + "','" + 1 + "')"; 
 
 
 		        try (Connection connection = DriverManager.getConnection( url, userid, pw );
@@ -771,7 +777,7 @@ public class GUI {
 		login.setBounds(50, 350, 300, 100);
 		login.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				Boolean canVote = false;
+				Integer canVote = 0;
 				String first = fText.getText();
 				String last = lText.getText();
 				String password = passwordField.getText();
@@ -789,7 +795,7 @@ public class GUI {
 			        {
 			           if(rs != null){
 			        	   rs.next();
-			        	   canVote = rs.getBoolean(5);
+			        	   canVote = rs.getInt(5);
 			           }
 			        }
 			        catch (SQLException z)
@@ -798,7 +804,7 @@ public class GUI {
 			        }				
 				
 				
-				if (canVote == false){
+				if (canVote == 0){
 					JDialog dError = new JDialog(myFrame, "Error", true);
 					dError.setSize(400, 500);
 					
@@ -968,7 +974,31 @@ public class GUI {
 									cDialog.setSize(500, 400);
 									
 									JLabel confirmMsg = new JLabel("Vote successfully casted for " + table.getValueAt(table.getSelectedRow(), 0).toString() + " " + table.getValueAt(table.getSelectedRow(), 1).toString() + " " + table.getValueAt(table.getSelectedRow(), 2).toString());
+									String printData = "Vote successfully casted for " + table.getValueAt(table.getSelectedRow(), 0).toString() + " " + table.getValueAt(table.getSelectedRow(), 1).toString() + " " + table.getValueAt(table.getSelectedRow(), 2).toString() + "\f";
+									PrintService defaultPrinter = PrintServiceLookup.lookupDefaultPrintService();
+									try {
+										InputStream is = new ByteArrayInputStream(printData.getBytes("UTF8"));
+										PrintRequestAttributeSet  pras = new HashPrintRequestAttributeSet();
+									    pras.add(new Copies(1));
+									    
+										DocFlavor fl = DocFlavor.INPUT_STREAM.AUTOSENSE;
+										Doc document = new SimpleDoc(is, fl, null);
+										DocPrintJob job = defaultPrinter.createPrintJob();
+										
+										job.print(document, pras);
+									} catch (UnsupportedEncodingException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									} catch (PrintException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									}
+									
+								
+									
 									confirmMsg.setBounds(10,10, 400,50);
+									
+									
 									
 									sql = "UPDATE voter SET registrationStatus = 0 WHERE firstName = '" + first + "' AND lastName = '" + last + "' AND pass = '" + password + "'";
 									try (Connection connection = DriverManager.getConnection( url, userid, pw );
