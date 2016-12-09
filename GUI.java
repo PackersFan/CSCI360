@@ -1,4 +1,4 @@
-//package evoting;
+package evoting;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -332,8 +332,9 @@ public class GUI {
 		            }
 		        };
 
-//		        JScrollPane scrollPane = new JScrollPane( table );
-//		        listDialog.add( scrollPane );
+		        JScrollPane scrollPane = new JScrollPane( table );
+		        scrollPane.setVisible(true);
+		        listDialog.add( scrollPane );
 		        
 		        listDialog.setLayout(new BorderLayout());
 		        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
@@ -455,8 +456,9 @@ public class GUI {
 		            }
 		        };
 
-//		        JScrollPane scrollPane = new JScrollPane( table );
-//		        listDialog.add( scrollPane );
+		        JScrollPane scrollPane = new JScrollPane( table );
+		        scrollPane.setVisible(true);
+		        listDialog.add( scrollPane );
 		        
 		        listDialog.setLayout(new BorderLayout());
 		        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
@@ -579,8 +581,9 @@ public class GUI {
 		            }
 		        };
 
-//		        JScrollPane scrollPane = new JScrollPane( table );
-//		        listDialog.add( scrollPane );
+		        JScrollPane scrollPane = new JScrollPane( table );
+		        scrollPane.setVisible(true);
+		        listDialog.add( scrollPane );
 		        
 		        listDialog.setLayout(new BorderLayout());
 		        listDialog.add(table.getTableHeader(), BorderLayout.PAGE_START);
