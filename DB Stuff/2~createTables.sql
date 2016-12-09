@@ -8,3 +8,4 @@ CREATE TABLE Ballot(ballotName varchar(255), ballotID int PRIMARY KEY, startTime
 CREATE TABLE votes(timeCasted varchar(255), candidateID int, FOREIGN KEY(candidateID) REFERENCES Candidates(candidateID));
 
 CREATE TABLE pollAdmin(firstName varchar(128), lastName varchar(128), adminID int PRIMARY KEY auto_increment);
+
